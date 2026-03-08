@@ -101,6 +101,7 @@ body {
 .clock-actions {
   display: flex;
   gap: 4px;
+  margin-left: 5px;
 }
 
 .edit-btn {
