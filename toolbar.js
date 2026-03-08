@@ -23,7 +23,8 @@
       toolbarMinimized: false,
       toolbarBlacklist: [],
       timeFormat: '12',
-      showSeconds: true
+      showSeconds: true,
+      timeSize: 14
     };
     
     // Check if current domain is blacklisted
@@ -106,6 +107,8 @@
     const clocksContainer = toolbar.querySelector('.bc-clocks');
     if (!clocksContainer) return;
     
+    const timeSize = settings.timeSize || 14;
+    
     clocksContainer.innerHTML = clocks.map(clock => {
       const timeData = getTimeForTimezone(clock.timezone);
       const flag = clock.countryCode ? getFlagEmoji(clock.countryCode) : '';
@@ -117,7 +120,7 @@
             ${flag ? `<span class="bc-flag">${flag}</span>` : ''}
             ${displayName}
           </div>
-          <div class="bc-clock-time">${timeData.time}</div>
+          <div class="bc-clock-time" style="font-size: ${timeSize}px;">${timeData.time}</div>
           <div class="bc-clock-day">${timeData.day}</div>
         </div>
       `;
@@ -164,6 +167,7 @@
   function updateClockTimes() {
     if (!toolbar) return;
     
+    const timeSize = settings.timeSize || 14;
     const clockElements = toolbar.querySelectorAll('.bc-clock');
     clockElements.forEach((el, index) => {
       if (clocks[index]) {
@@ -172,6 +176,7 @@
         const dayEl = el.querySelector('.bc-clock-day');
         if (timeEl) {
           timeEl.textContent = timeData.time;
+          timeEl.style.fontSize = `${timeSize}px`;
         }
         if (dayEl) {
           dayEl.textContent = timeData.day;

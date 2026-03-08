@@ -8,7 +8,8 @@ const DEFAULT_SETTINGS = {
   dateFormat: 'short',
   showSeconds: true,
   showTimezone: true,
-  theme: 'dark'
+  theme: 'dark',
+  timeSize: 14 // Font size for time in toolbar (10-24px)
 };
 
 // Load settings on page load
@@ -18,6 +19,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Event listeners
   document.getElementById('saveBtn').addEventListener('click', saveSettings);
   document.getElementById('resetBtn').addEventListener('click', resetSettings);
+  
+  // Time size slider listener
+  const timeSizeSlider = document.getElementById('timeSize');
+  const timeSizeValue = document.getElementById('timeSizeValue');
+  if (timeSizeSlider && timeSizeValue) {
+    timeSizeSlider.addEventListener('input', (e) => {
+      timeSizeValue.textContent = e.target.value;
+    });
+  }
 });
 
 // Load settings from storage
@@ -33,6 +43,10 @@ async function loadSettings() {
   document.getElementById('showSeconds').checked = settings.showSeconds;
   document.getElementById('showTimezone').checked = settings.showTimezone;
   document.getElementById('theme').value = settings.theme;
+  
+  const timeSize = settings.timeSize || 14;
+  document.getElementById('timeSize').value = timeSize;
+  document.getElementById('timeSizeValue').textContent = timeSize;
   
   // Load blacklist
   renderBlacklist(settings.toolbarBlacklist || []);
@@ -54,7 +68,8 @@ async function saveSettings() {
     dateFormat: document.getElementById('dateFormat').value,
     showSeconds: document.getElementById('showSeconds').checked,
     showTimezone: document.getElementById('showTimezone').checked,
-    theme: document.getElementById('theme').value
+    theme: document.getElementById('theme').value,
+    timeSize: parseInt(document.getElementById('timeSize').value)
   };
   
   await chrome.storage.sync.set({ settings });
