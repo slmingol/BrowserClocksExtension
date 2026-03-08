@@ -115,6 +115,15 @@
   overflow-y: hidden;
   scrollbar-width: thin;
   scrollbar-color: #999 transparent;
+  justify-content: flex-start;
+}
+
+#browserclocks-toolbar.align-center .bc-clocks {
+  justify-content: center;
+}
+
+#browserclocks-toolbar.align-right .bc-clocks {
+  justify-content: flex-end;
 }
 
 #browserclocks-toolbar.position-left .bc-clocks,
