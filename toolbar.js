@@ -117,8 +117,8 @@
             ${flag ? `<span class="bc-flag">${flag}</span>` : ''}
             ${displayName}
           </div>
-          <div class="bc-clock-day">${timeData.day}</div>
           <div class="bc-clock-time">${timeData.time}</div>
+          <div class="bc-clock-day">${timeData.day}</div>
         </div>
       `;
     }).join('');
