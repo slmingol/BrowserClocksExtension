@@ -22,7 +22,16 @@
   },
   "permissions": [
     "storage",
-    "alarms"
+    "alarms",
+    "activeTab"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["toolbar.js"],
+      "css": ["toolbar.css"],
+      "run_at": "document_end"
+    }
   ],
   "options_page": "options.html"
 }

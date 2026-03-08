@@ -1,0 +1,224 @@
+// BrowserClocks Persistent Toolbar Script
+(function() {
+  'use strict';
+  
+  let toolbar = null;
+  let clocks = [];
+  let settings = {};
+  let updateInterval = null;
+  
+  // Initialize toolbar
+  async function init() {
+    // Load settings and clocks
+    const data = await chrome.storage.sync.get(['clocks', 'settings']);
+    clocks = data.clocks || [
+      { city: 'New York', timezone: 'America/New_York', country: 'USA' },
+      { city: 'London', timezone: 'Europe/London', country: 'UK' },
+      { city: 'Tokyo', timezone: 'Asia/Tokyo', country: 'Japan' }
+    ];
+    
+    settings = data.settings || {
+      toolbarEnabled: true,
+      toolbarPosition: 'top',
+      toolbarMinimized: false,
+      timeFormat: '12',
+      showSeconds: true
+    };
+    
+    // Only create toolbar if enabled
+    if (settings.toolbarEnabled) {
+      createToolbar();
+      startUpdating();
+    }
+    
+    // Listen for settings changes
+    chrome.storage.onChanged.addListener((changes, namespace) => {
+      if (namespace === 'sync') {
+        if (changes.clocks) {
+          clocks = changes.clocks.newValue || [];
+          updateClocks();
+        }
+        if (changes.settings) {
+          settings = changes.settings.newValue || settings;
+          updateToolbarSettings();
+        }
+      }
+    });
+  }
+  
+  // Create the toolbar element
+  function createToolbar() {
+    // Don't create if already exists
+    if (document.getElementById('browserclocks-toolbar')) {
+      return;
+    }
+    
+    toolbar = document.createElement('div');
+    toolbar.id = 'browserclocks-toolbar';
+    toolbar.className = `position-${settings.toolbarPosition}`;
+    
+    if (settings.toolbarMinimized) {
+      toolbar.classList.add('minimized');
+    }
+    
+    toolbar.innerHTML = `
+      <div class="bc-logo" title="Click to expand/minimize">
+        🕐 <span>BrowserClocks</span>
+      </div>
+      <div class="bc-clocks"></div>
+      <div class="bc-controls">
+        <button class="bc-btn bc-toggle" title="Minimize/Expand">−</button>
+        <button class="bc-btn" title="Hide toolbar">✕</button>
+      </div>
+    `;
+    
+    // Add event listeners
+    toolbar.querySelector('.bc-logo').addEventListener('click', toggleMinimize);
+    toolbar.querySelector('.bc-toggle').addEventListener('click', toggleMinimize);
+    toolbar.querySelector('.bc-controls .bc-btn:last-child').addEventListener('click', hideToolbar);
+    
+    document.body.appendChild(toolbar);
+    updateClocks();
+  }
+  
+  // Update clock displays
+  function updateClocks() {
+    if (!toolbar) return;
+    
+    const clocksContainer = toolbar.querySelector('.bc-clocks');
+    if (!clocksContainer) return;
+    
+    clocksContainer.innerHTML = clocks.map(clock => {
+      const time = getTimeForTimezone(clock.timezone);
+      return `
+        <div class="bc-clock">
+          <div class="bc-clock-city">${clock.city}</div>
+          <div class="bc-clock-time">${time}</div>
+        </div>
+      `;
+    }).join('');
+  }
+  
+  // Get formatted time for timezone
+  function getTimeForTimezone(timezone) {
+    const now = new Date();
+    const options = {
+      timeZone: timezone,
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: settings.timeFormat === '12'
+    };
+    
+    if (settings.showSeconds) {
+      options.second = '2-digit';
+    }
+    
+    try {
+      return new Intl.DateTimeFormat('en-US', options).format(now);
+    } catch (e) {
+      return 'Invalid TZ';
+    }
+  }
+  
+  // Start updating clocks
+  function startUpdating() {
+    if (updateInterval) {
+      clearInterval(updateInterval);
+    }
+    updateInterval = setInterval(updateClockTimes, 1000);
+  }
+  
+  // Update just the time values (don't rebuild DOM)
+  function updateClockTimes() {
+    if (!toolbar) return;
+    
+    const clockElements = toolbar.querySelectorAll('.bc-clock');
+    clockElements.forEach((el, index) => {
+      if (clocks[index]) {
+        const time = getTimeForTimezone(clocks[index].timezone);
+        const timeEl = el.querySelector('.bc-clock-time');
+        if (timeEl) {
+          timeEl.textContent = time;
+        }
+      }
+    });
+  }
+  
+  // Toggle minimize state
+  function toggleMinimize() {
+    if (!toolbar) return;
+    
+    toolbar.classList.toggle('minimized');
+    settings.toolbarMinimized = toolbar.classList.contains('minimized');
+    
+    // Update toggle button
+    const toggleBtn = toolbar.querySelector('.bc-toggle');
+    if (toggleBtn) {
+      toggleBtn.textContent = settings.toolbarMinimized ? '+' : '−';
+    }
+    
+    // Save state
+    chrome.storage.sync.set({ settings });
+  }
+  
+  // Hide toolbar
+  function hideToolbar() {
+    if (toolbar) {
+      toolbar.classList.add('hidden');
+      setTimeout(() => {
+        toolbar.remove();
+        toolbar = null;
+        if (updateInterval) {
+          clearInterval(updateInterval);
+        }
+      }, 300);
+    }
+    
+    // Update settings
+    settings.toolbarEnabled = false;
+    chrome.storage.sync.set({ settings });
+  }
+  
+  // Update toolbar settings (position, etc.)
+  function updateToolbarSettings() {
+    if (!toolbar && settings.toolbarEnabled) {
+      createToolbar();
+      startUpdating();
+      return;
+    }
+    
+    if (toolbar) {
+      // Update position
+      toolbar.className = `position-${settings.toolbarPosition}`;
+      if (settings.toolbarMinimized) {
+        toolbar.classList.add('minimized');
+      }
+      
+      // Update toggle button
+      const toggleBtn = toolbar.querySelector('.bc-toggle');
+      if (toggleBtn) {
+        toggleBtn.textContent = settings.toolbarMinimized ? '+' : '−';
+      }
+      
+      updateClocks();
+    }
+    
+    if (!settings.toolbarEnabled && toolbar) {
+      hideToolbar();
+    }
+  }
+  
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+  
+  // Cleanup on page unload
+  window.addEventListener('unload', () => {
+    if (updateInterval) {
+      clearInterval(updateInterval);
+    }
+  });
+})();

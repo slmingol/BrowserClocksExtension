@@ -36,32 +36,44 @@
 
 ## ✅ Testing the Extension
 
-1. **Click the extension icon** in your toolbar
+1. **Check the persistent toolbar**:
+   - Navigate to any website (e.g., google.com)
+   - You should see a toolbar at the top showing your clocks
+   - Times update every second
+   - Click "−" to minimize, "×" to hide
+
+2. **Click the extension icon** in your toolbar
    - You should see 3 default clocks (New York, London, Tokyo)
    - Times update every second
 
-2. **Add a new timezone**:
+3. **Add a new timezone**:
    - Click "+ Add Timezone"
    - Search for a city (e.g., "Paris")
    - Click on the timezone to add it
+   - It appears in both the popup AND the persistent toolbar
 
-3. **Remove a clock**:
+4. **Remove a clock**:
    - Click the trash can icon (🗑️) on any clock
 
-4. **Open Settings**:
+5. **Configure the toolbar**:
    - Click the gear icon (⚙️)
+   - Toggle "Show persistent toolbar on all pages"
+   - Change toolbar position (top/bottom/left/right)
    - Customize time/date formats
-   - Change theme settings
    - Click "Save Settings"
+   - Visit any webpage to see changes
 
 ## 🎨 Features to Try
 
+- ✅ **Persistent toolbar on every webpage** (like FoxClocks!)
+- ✅ Configurable toolbar position (top/bottom/left/right)
 - ✅ Real-time clock updates
 - ✅ Search 50+ pre-configured cities
 - ✅ Automatic daylight saving time handling
 - ✅ Dark/Light theme support
 - ✅ Settings sync across devices (when signed into Chrome)
 - ✅ Customizable time and date formats
+- ✅ Minimize/expand toolbar controls
 
 ## 🐛 Troubleshooting
 

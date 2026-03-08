@@ -1,5 +1,8 @@
 // Default settings
 const DEFAULT_SETTINGS = {
+  toolbarEnabled: true,
+  toolbarPosition: 'top',
+  toolbarMinimized: false,
   timeFormat: '12',
   dateFormat: 'short',
   showSeconds: true,
@@ -22,6 +25,8 @@ async function loadSettings() {
   const settings = result.settings || DEFAULT_SETTINGS;
   
   // Update UI with loaded settings
+  document.getElementById('toolbarEnabled').checked = settings.toolbarEnabled !== false;
+  document.getElementById('toolbarPosition').value = settings.toolbarPosition || 'top';
   document.getElementById('timeFormat').value = settings.timeFormat;
   document.getElementById('dateFormat').value = settings.dateFormat;
   document.getElementById('showSeconds').checked = settings.showSeconds;
@@ -32,6 +37,9 @@ async function loadSettings() {
 // Save settings to storage
 async function saveSettings() {
   const settings = {
+    toolbarEnabled: document.getElementById('toolbarEnabled').checked,
+    toolbarPosition: document.getElementById('toolbarPosition').value,
+    toolbarMinimized: false, // Reset on save
     timeFormat: document.getElementById('timeFormat').value,
     dateFormat: document.getElementById('dateFormat').value,
     showSeconds: document.getElementById('showSeconds').checked,

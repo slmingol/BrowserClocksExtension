@@ -5,7 +5,9 @@ A modern, open-source browser extension for tracking time across multiple timezo
 ## Features
 
 - ⏰ **Multiple Timezone Clocks** - Track time in cities around the world
-- 🔍 **Easy Search** - Quickly find and add timezones
+- � **Persistent Toolbar** - Display clocks on every webpage (like FoxClocks!)
+- 📍 **Configurable Position** - Place toolbar at top, bottom, left, or right
+- �🔍 **Easy Search** - Quickly find and add timezones
 - 🎨 **Modern UI** - Clean, dark-mode interface
 - ⚙️ **Customizable** - Adjust time/date formats and appearance
 - 🌍 **50+ Popular Cities** - Pre-configured major cities worldwide
@@ -40,6 +42,13 @@ You can use any design tool or icon generator. Suggested design: Orange fox cloc
 
 ## Usage
 
+**Persistent Toolbar Mode (FoxClocks-style):**
+- Your selected clocks automatically appear on every webpage
+- Configure position (top/bottom/left/right) in settings
+- Click the "−" button to minimize the toolbar
+- Click the "×" button to hide it (re-enable in settings)
+
+**Popup Mode:**
 1. **Click the extension icon** in your browser toolbar
 2. **Add timezones** by clicking "+ Add Timezone"
 3. **Search for cities** or browse the list
@@ -50,6 +59,8 @@ You can use any design tool or icon generator. Suggested design: Orange fox cloc
 ## Settings
 
 Access settings to customize:
+- **Toolbar:** Enable/disable persistent toolbar on all pages
+- **Position:** Choose where toolbar appears (top/bottom/left/right)
 - Time format (12/24 hour)
 - Date format (short/long/numeric)
 - Show/hide seconds
