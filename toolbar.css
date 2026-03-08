@@ -161,6 +161,15 @@
   display: inline-block;
 }
 
+.bc-clock-day {
+  font-size: 10px;
+  color: #666;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
 .bc-clock-time {
   font-size: 14px;
   font-weight: 600;

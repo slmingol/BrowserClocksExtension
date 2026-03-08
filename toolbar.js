@@ -107,7 +107,7 @@
     if (!clocksContainer) return;
     
     clocksContainer.innerHTML = clocks.map(clock => {
-      const time = getTimeForTimezone(clock.timezone);
+      const timeData = getTimeForTimezone(clock.timezone);
       const flag = clock.countryCode ? getFlagEmoji(clock.countryCode) : '';
       const displayName = clock.alias || clock.city;
       
@@ -117,7 +117,8 @@
             ${flag ? `<span class="bc-flag">${flag}</span>` : ''}
             ${displayName}
           </div>
-          <div class="bc-clock-time">${time}</div>
+          <div class="bc-clock-day">${timeData.day}</div>
+          <div class="bc-clock-time">${timeData.time}</div>
         </div>
       `;
     }).join('');
@@ -126,7 +127,7 @@
   // Get formatted time for timezone
   function getTimeForTimezone(timezone) {
     const now = new Date();
-    const options = {
+    const timeOptions = {
       timeZone: timezone,
       hour: '2-digit',
       minute: '2-digit',
@@ -134,13 +135,20 @@
     };
     
     if (settings.showSeconds) {
-      options.second = '2-digit';
+      timeOptions.second = '2-digit';
     }
     
+    const dayOptions = {
+      timeZone: timezone,
+      weekday: 'short'
+    };
+    
     try {
-      return new Intl.DateTimeFormat('en-US', options).format(now);
+      const time = new Intl.DateTimeFormat('en-US', timeOptions).format(now);
+      const day = new Intl.DateTimeFormat('en-US', dayOptions).format(now);
+      return { time, day };
     } catch (e) {
-      return 'Invalid TZ';
+      return { time: 'Invalid TZ', day: '' };
     }
   }
   
@@ -159,10 +167,14 @@
     const clockElements = toolbar.querySelectorAll('.bc-clock');
     clockElements.forEach((el, index) => {
       if (clocks[index]) {
-        const time = getTimeForTimezone(clocks[index].timezone);
+        const timeData = getTimeForTimezone(clocks[index].timezone);
         const timeEl = el.querySelector('.bc-clock-time');
+        const dayEl = el.querySelector('.bc-clock-day');
         if (timeEl) {
-          timeEl.textContent = time;
+          timeEl.textContent = timeData.time;
+        }
+        if (dayEl) {
+          dayEl.textContent = timeData.day;
         }
       }
     });
