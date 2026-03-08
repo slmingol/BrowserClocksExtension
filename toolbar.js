@@ -25,7 +25,8 @@
       timeFormat: '12',
       showSeconds: true,
       timeSize: 14,
-      toolbarHeight: 32
+      toolbarHeight: 32,
+      showAppName: true
     };
     
     // Check if current domain is blacklisted
@@ -74,10 +75,14 @@
     // Apply height for top/bottom positions
     applyToolbarHeight();
     
-    toolbar.innerHTML = `
+    const logoHTML = settings.showAppName !== false ? `
       <div class="bc-logo" title="Click to expand/minimize">
         🕐 <span>BrowserClocks</span>
       </div>
+    ` : '';
+    
+    toolbar.innerHTML = `
+      ${logoHTML}
       <div class="bc-clocks"></div>
       <div class="bc-controls">
         <button class="bc-btn bc-toggle" title="Minimize/Expand">−</button>
@@ -86,7 +91,9 @@
     `;
     
     // Add event listeners
-    toolbar.querySelector('.bc-logo').addEventListener('click', toggleMinimize);
+    if (settings.showAppName !== false) {
+      toolbar.querySelector('.bc-logo').addEventListener('click', toggleMinimize);
+    }
     toolbar.querySelector('.bc-toggle').addEventListener('click', toggleMinimize);
     toolbar.querySelector('.bc-controls .bc-btn:last-child').addEventListener('click', hideToolbar);
     
@@ -257,6 +264,19 @@
     }
     
     if (toolbar) {
+      // Check if we need to rebuild toolbar (for showAppName changes)
+      const hasLogo = toolbar.querySelector('.bc-logo') !== null;
+      const shouldHaveLogo = settings.showAppName !== false;
+      
+      if (hasLogo !== shouldHaveLogo) {
+        // Rebuild toolbar
+        toolbar.remove();
+        toolbar = null;
+        createToolbar();
+        startUpdating();
+        return;
+      }
+      
       // Update position
       toolbar.className = `position-${settings.toolbarPosition}`;
       if (settings.toolbarMinimized) {

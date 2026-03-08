@@ -10,7 +10,8 @@ const DEFAULT_SETTINGS = {
   showTimezone: true,
   theme: 'dark',
   timeSize: 14, // Font size for time in toolbar (10-24px)
-  toolbarHeight: 32 // Height of toolbar for top/bottom positions (24-80px)
+  toolbarHeight: 32, // Height of toolbar for top/bottom positions (24-80px)
+  showAppName: true // Show "BrowserClocks" name in toolbar
 };
 
 // Load settings on page load
@@ -47,6 +48,7 @@ async function loadSettings() {
   
   // Update UI with loaded settings
   document.getElementById('toolbarEnabled').checked = settings.toolbarEnabled !== false;
+  document.getElementById('showAppName').checked = settings.showAppName !== false;
   document.getElementById('toolbarPosition').value = settings.toolbarPosition || 'top';
   document.getElementById('timeFormat').value = settings.timeFormat;
   document.getElementById('dateFormat').value = settings.dateFormat;
@@ -75,6 +77,7 @@ async function saveSettings() {
   
   const settings = {
     toolbarEnabled: document.getElementById('toolbarEnabled').checked,
+    showAppName: document.getElementById('showAppName').checked,
     toolbarPosition: document.getElementById('toolbarPosition').value,
     toolbarMinimized: false, // Reset on save
     toolbarBlacklist: blacklistItems,
