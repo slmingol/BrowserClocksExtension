@@ -96,7 +96,7 @@
 /* Clocks container */
 #browserclocks-toolbar .bc-clocks {
   display: flex;
-  gap: 20px;
+  gap: 0;
   flex: 1;
   overflow-x: auto;
   overflow-y: hidden;
@@ -107,7 +107,7 @@
 #browserclocks-toolbar.position-left .bc-clocks,
 #browserclocks-toolbar.position-right .bc-clocks {
   flex-direction: column;
-  gap: 12px;
+  gap: 0;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -132,10 +132,15 @@
   align-items: center;
   gap: 8px;
   white-space: nowrap;
-  padding: 4px 8px;
+  padding: 4px 12px;
   border-radius: 4px;
   background: rgba(0, 0, 0, 0.05);
   transition: background 0.2s;
+  border-right: 1px solid #999;
+}
+
+.bc-clock:last-child {
+  border-right: none;
 }
 
 .bc-clock:hover {
@@ -147,6 +152,13 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 2px;
+  border-right: none;
+  border-bottom: 1px solid #999;
+}
+
+#browserclocks-toolbar.position-left .bc-clock:last-child,
+#browserclocks-toolbar.position-right .bc-clock:last-child {
+  border-bottom: none;
 }
 
 .bc-clock-city {
