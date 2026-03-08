@@ -77,6 +77,19 @@
   transform: translateX(100%);
 }
 
+/* Alignment variants */
+#browserclocks-toolbar.align-left {
+  justify-content: flex-start;
+}
+
+#browserclocks-toolbar.align-center {
+  justify-content: center;
+}
+
+#browserclocks-toolbar.align-right {
+  justify-content: flex-end;
+}
+
 /* Logo/Brand */
 #browserclocks-toolbar .bc-logo {
   font-weight: 600;

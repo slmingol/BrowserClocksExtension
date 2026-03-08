@@ -20,6 +20,7 @@
     settings = data.settings || {
       toolbarEnabled: true,
       toolbarPosition: 'top',
+      toolbarAlign: 'left',
       toolbarMinimized: false,
       toolbarBlacklist: [],
       timeFormat: '12',
@@ -66,7 +67,7 @@
     
     toolbar = document.createElement('div');
     toolbar.id = 'browserclocks-toolbar';
-    toolbar.className = `position-${settings.toolbarPosition}`;
+    toolbar.className = `position-${settings.toolbarPosition} align-${settings.toolbarAlign || 'left'}`;
     
     if (settings.toolbarMinimized) {
       toolbar.classList.add('minimized');
@@ -278,7 +279,7 @@
       }
       
       // Update position
-      toolbar.className = `position-${settings.toolbarPosition}`;
+      toolbar.className = `position-${settings.toolbarPosition} align-${settings.toolbarAlign || 'left'}`;
       if (settings.toolbarMinimized) {
         toolbar.classList.add('minimized');
       }

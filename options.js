@@ -2,6 +2,7 @@
 const DEFAULT_SETTINGS = {
   toolbarEnabled: true,
   toolbarPosition: 'top',
+  toolbarAlign: 'left',
   toolbarMinimized: false,
   toolbarBlacklist: [], // Array of domains/URLs to exclude
   timeFormat: '12',
@@ -50,6 +51,7 @@ async function loadSettings() {
   document.getElementById('toolbarEnabled').checked = settings.toolbarEnabled !== false;
   document.getElementById('showAppName').checked = settings.showAppName !== false;
   document.getElementById('toolbarPosition').value = settings.toolbarPosition || 'top';
+  document.getElementById('toolbarAlign').value = settings.toolbarAlign || 'left';
   document.getElementById('timeFormat').value = settings.timeFormat;
   document.getElementById('dateFormat').value = settings.dateFormat;
   document.getElementById('showSeconds').checked = settings.showSeconds;
@@ -79,6 +81,7 @@ async function saveSettings() {
     toolbarEnabled: document.getElementById('toolbarEnabled').checked,
     showAppName: document.getElementById('showAppName').checked,
     toolbarPosition: document.getElementById('toolbarPosition').value,
+    toolbarAlign: document.getElementById('toolbarAlign').value,
     toolbarMinimized: false, // Reset on save
     toolbarBlacklist: blacklistItems,
     timeFormat: document.getElementById('timeFormat').value,
