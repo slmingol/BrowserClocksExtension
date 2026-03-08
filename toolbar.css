@@ -155,6 +155,12 @@
   font-weight: 500;
 }
 
+.bc-flag {
+  font-size: 14px;
+  margin-right: 4px;
+  display: inline-block;
+}
+
 .bc-clock-time {
   font-size: 14px;
   font-weight: 600;

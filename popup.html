@@ -36,6 +36,24 @@
     </div>
   </div>
   
+  <!-- Edit Alias Modal -->
+  <div id="editModal" class="modal hidden">
+    <div class="modal-content edit-modal-content">
+      <div class="modal-header">
+        <h2>Edit Timezone Alias</h2>
+        <button id="closeEditModal" class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="hint">Enter a custom name to display instead of the city name:</p>
+        <input type="text" id="aliasInput" placeholder="Enter alias..." autocomplete="off">
+        <div class="modal-actions">
+          <button id="saveAliasBtn" class="save-btn">Save</button>
+          <button id="cancelAliasBtn" class="cancel-btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
   <script src="popup.js"></script>
 </body>
 </html>

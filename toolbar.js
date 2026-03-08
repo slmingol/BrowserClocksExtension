@@ -89,6 +89,16 @@
     updateClocks();
   }
   
+  // Convert country code to flag emoji
+  function getFlagEmoji(countryCode) {
+    if (!countryCode) return '';
+    const codePoints = countryCode
+      .toUpperCase()
+      .split('')
+      .map(char => 127397 + char.charCodeAt(0));
+    return String.fromCodePoint(...codePoints);
+  }
+  
   // Update clock displays
   function updateClocks() {
     if (!toolbar) return;
@@ -98,9 +108,15 @@
     
     clocksContainer.innerHTML = clocks.map(clock => {
       const time = getTimeForTimezone(clock.timezone);
+      const flag = clock.countryCode ? getFlagEmoji(clock.countryCode) : '';
+      const displayName = clock.alias || clock.city;
+      
       return `
         <div class="bc-clock">
-          <div class="bc-clock-city">${clock.city}</div>
+          <div class="bc-clock-city">
+            ${flag ? `<span class="bc-flag">${flag}</span>` : ''}
+            ${displayName}
+          </div>
           <div class="bc-clock-time">${time}</div>
         </div>
       `;
@@ -222,6 +238,16 @@
       hideToolbar();
     }
   }
+  
+  // Listen for messages from popup
+  chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.action === 'updateClocks') {
+      chrome.storage.sync.get(['clocks'], (result) => {
+        clocks = result.clocks || [];
+        updateClocks();
+      });
+    }
+  });
   
   // Initialize when DOM is ready
   if (document.readyState === 'loading') {
