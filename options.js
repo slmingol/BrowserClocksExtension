@@ -12,7 +12,8 @@ const DEFAULT_SETTINGS = {
   theme: 'dark',
   timeSize: 14, // Font size for time in toolbar (10-24px)
   toolbarHeight: 32, // Height of toolbar for top/bottom positions (24-80px)
-  showAppName: true // Show "BrowserClocks" name in toolbar
+  showAppName: true, // Show "BrowserClocks" name in toolbar
+  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif' // Font family for toolbar
 };
 
 // Load settings on page load
@@ -66,6 +67,9 @@ async function loadSettings() {
   document.getElementById('toolbarHeight').value = toolbarHeight;
   document.getElementById('toolbarHeightValue').textContent = toolbarHeight;
   
+  const fontFamily = settings.fontFamily || DEFAULT_SETTINGS.fontFamily;
+  document.getElementById('fontFamily').value = fontFamily;
+  
   // Load blacklist
   renderBlacklist(settings.toolbarBlacklist || []);
 }
@@ -90,7 +94,8 @@ async function saveSettings() {
     showTimezone: document.getElementById('showTimezone').checked,
     theme: document.getElementById('theme').value,
     timeSize: parseInt(document.getElementById('timeSize').value),
-    toolbarHeight: parseInt(document.getElementById('toolbarHeight').value)
+    toolbarHeight: parseInt(document.getElementById('toolbarHeight').value),
+    fontFamily: document.getElementById('fontFamily').value.trim() || DEFAULT_SETTINGS.fontFamily
   };
   
   await chrome.storage.sync.set({ settings });

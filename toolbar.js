@@ -27,7 +27,8 @@
       showSeconds: true,
       timeSize: 14,
       toolbarHeight: 32,
-      showAppName: true
+      showAppName: true,
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif'
     };
     
     // Check if current domain is blacklisted
@@ -75,6 +76,11 @@
     
     // Apply height for top/bottom positions
     applyToolbarHeight();
+    
+    // Apply font family
+    if (settings.fontFamily) {
+      toolbar.style.fontFamily = settings.fontFamily;
+    }
     
     const logoHTML = settings.showAppName !== false ? `
       <div class="bc-logo" title="Click to expand/minimize">
@@ -286,6 +292,11 @@
       
       // Update height
       applyToolbarHeight();
+      
+      // Update font family
+      if (settings.fontFamily) {
+        toolbar.style.fontFamily = settings.fontFamily;
+      }
       
       // Update toggle button
       const toggleBtn = toolbar.querySelector('.bc-toggle');
