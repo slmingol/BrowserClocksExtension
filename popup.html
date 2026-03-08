@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BrowserClocks</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🕐 BrowserClocks</h1>
+      <button id="settingsBtn" class="icon-btn" title="Settings">⚙️</button>
+    </div>
+    
+    <div id="clocksList" class="clocks-list">
+      <!-- Clocks will be dynamically added here -->
+    </div>
+    
+    <div class="footer">
+      <button id="addClockBtn" class="add-btn">+ Add Timezone</button>
+    </div>
+  </div>
+  
+  <!-- Add Timezone Modal -->
+  <div id="addModal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Add Timezone</h2>
+        <button id="closeModal" class="close-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="searchTimezone" placeholder="Search timezone or city..." autocomplete="off">
+        <div id="timezoneList" class="timezone-list"></div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>

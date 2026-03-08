@@ -1,0 +1,30 @@
+# OS and Editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Temporary files
+*.tmp
+*.temp
+
+# Extension build files
+*.zip
+*.crx
+*.xpi
+dist/
+build/
+
+# Node modules (if you add build tools later)
+node_modules/
+
+# Environment files
+.env
+.env.local
