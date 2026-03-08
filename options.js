@@ -9,7 +9,8 @@ const DEFAULT_SETTINGS = {
   showSeconds: true,
   showTimezone: true,
   theme: 'dark',
-  timeSize: 14 // Font size for time in toolbar (10-24px)
+  timeSize: 14, // Font size for time in toolbar (10-24px)
+  toolbarHeight: 32 // Height of toolbar for top/bottom positions (24-80px)
 };
 
 // Load settings on page load
@@ -26,6 +27,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (timeSizeSlider && timeSizeValue) {
     timeSizeSlider.addEventListener('input', (e) => {
       timeSizeValue.textContent = e.target.value;
+    });
+  }
+  
+  // Toolbar height slider listener
+  const toolbarHeightSlider = document.getElementById('toolbarHeight');
+  const toolbarHeightValue = document.getElementById('toolbarHeightValue');
+  if (toolbarHeightSlider && toolbarHeightValue) {
+    toolbarHeightSlider.addEventListener('input', (e) => {
+      toolbarHeightValue.textContent = e.target.value;
     });
   }
 });
@@ -48,6 +58,10 @@ async function loadSettings() {
   document.getElementById('timeSize').value = timeSize;
   document.getElementById('timeSizeValue').textContent = timeSize;
   
+  const toolbarHeight = settings.toolbarHeight || 32;
+  document.getElementById('toolbarHeight').value = toolbarHeight;
+  document.getElementById('toolbarHeightValue').textContent = toolbarHeight;
+  
   // Load blacklist
   renderBlacklist(settings.toolbarBlacklist || []);
 }
@@ -69,7 +83,8 @@ async function saveSettings() {
     showSeconds: document.getElementById('showSeconds').checked,
     showTimezone: document.getElementById('showTimezone').checked,
     theme: document.getElementById('theme').value,
-    timeSize: parseInt(document.getElementById('timeSize').value)
+    timeSize: parseInt(document.getElementById('timeSize').value),
+    toolbarHeight: parseInt(document.getElementById('toolbarHeight').value)
   };
   
   await chrome.storage.sync.set({ settings });

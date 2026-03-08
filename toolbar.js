@@ -24,7 +24,8 @@
       toolbarBlacklist: [],
       timeFormat: '12',
       showSeconds: true,
-      timeSize: 14
+      timeSize: 14,
+      toolbarHeight: 32
     };
     
     // Check if current domain is blacklisted
@@ -69,6 +70,9 @@
     if (settings.toolbarMinimized) {
       toolbar.classList.add('minimized');
     }
+    
+    // Apply height for top/bottom positions
+    applyToolbarHeight();
     
     toolbar.innerHTML = `
       <div class="bc-logo" title="Click to expand/minimize">
@@ -185,6 +189,24 @@
     });
   }
   
+  // Apply toolbar height based on position
+  function applyToolbarHeight() {
+    if (!toolbar) return;
+    
+    const height = settings.toolbarHeight || 32;
+    const position = settings.toolbarPosition || 'top';
+    
+    // Only apply height to top/bottom positions
+    if (position === 'top' || position === 'bottom') {
+      toolbar.style.height = `${height}px`;
+      toolbar.style.padding = '0 16px';
+    } else {
+      // Reset for left/right positions
+      toolbar.style.height = '';
+      toolbar.style.padding = '';
+    }
+  }
+  
   // Toggle minimize state
   function toggleMinimize() {
     if (!toolbar) return;
@@ -240,6 +262,9 @@
       if (settings.toolbarMinimized) {
         toolbar.classList.add('minimized');
       }
+      
+      // Update height
+      applyToolbarHeight();
       
       // Update toggle button
       const toggleBtn = toolbar.querySelector('.bc-toggle');
