@@ -59,6 +59,7 @@
    - Click the gear icon (⚙️)
    - Toggle "Show persistent toolbar on all pages"
    - Change toolbar position (top/bottom/left/right)
+   - Add websites to blacklist to exclude them (e.g., "github.com")
    - Customize time/date formats
    - Click "Save Settings"
    - Visit any webpage to see changes

@@ -21,12 +21,20 @@
       toolbarEnabled: true,
       toolbarPosition: 'top',
       toolbarMinimized: false,
+      toolbarBlacklist: [],
       timeFormat: '12',
       showSeconds: true
     };
     
-    // Only create toolbar if enabled
-    if (settings.toolbarEnabled) {
+    // Check if current domain is blacklisted
+    const currentDomain = window.location.hostname;
+    const isBlacklisted = settings.toolbarBlacklist?.some(domain => {
+      // Match exact domain or subdomain
+      return currentDomain === domain || currentDomain.endsWith('.' + domain);
+    });
+    
+    // Only create toolbar if enabled and not blacklisted
+    if (settings.toolbarEnabled && !isBlacklisted) {
       createToolbar();
       startUpdating();
     }
@@ -181,7 +189,13 @@
   
   // Update toolbar settings (position, etc.)
   function updateToolbarSettings() {
-    if (!toolbar && settings.toolbarEnabled) {
+    // Check if current domain is blacklisted
+    const currentDomain = window.location.hostname;
+    const isBlacklisted = settings.toolbarBlacklist?.some(domain => {
+      return currentDomain === domain || currentDomain.endsWith('.' + domain);
+    });
+    
+    if (!toolbar && settings.toolbarEnabled && !isBlacklisted) {
       createToolbar();
       startUpdating();
       return;
@@ -203,7 +217,8 @@
       updateClocks();
     }
     
-    if (!settings.toolbarEnabled && toolbar) {
+    // Hide toolbar if disabled or blacklisted
+    if ((!settings.toolbarEnabled || isBlacklisted) && toolbar) {
       hideToolbar();
     }
   }

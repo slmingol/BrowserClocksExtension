@@ -148,6 +148,32 @@
       color: #1976d2;
       font-size: 14px;
     }
+
+    .blacklist-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .delete-blacklist-btn {
+      background: #ff4444;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 4px 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+
+    .delete-blacklist-btn:hover {
+      background: #cc0000;
+    }
   </style>
 </head>
 <body>
@@ -173,6 +199,20 @@
           <option value="left">Left Side</option>
           <option value="right">Right Side</option>
         </select>
+      </div>
+
+      <div class="setting-item">
+        <label>Blacklisted Websites (toolbar won't appear)</label>
+        <p style="font-size: 12px; color: #666; margin-bottom: 8px;">
+          Add domains where you don't want the toolbar to appear (e.g., "github.com", "mail.google.com")
+        </p>
+        <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+          <input type="text" id="blacklistInput" placeholder="Enter domain (e.g., github.com)" style="flex: 1;">
+          <button type="button" id="addBlacklistBtn" class="btn btn-primary" style="padding: 8px 16px;">Add</button>
+        </div>
+        <div id="blacklistItems" style="display: flex; flex-direction: column; gap: 6px; max-height: 200px; overflow-y: auto;">
+          <!-- Blacklist items will be added here -->
+        </div>
       </div>
     </div>
 

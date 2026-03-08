@@ -3,6 +3,7 @@ const DEFAULT_SETTINGS = {
   toolbarEnabled: true,
   toolbarPosition: 'top',
   toolbarMinimized: false,
+  toolbarBlacklist: [], // Array of domains/URLs to exclude
   timeFormat: '12',
   dateFormat: 'short',
   showSeconds: true,
@@ -32,14 +33,23 @@ async function loadSettings() {
   document.getElementById('showSeconds').checked = settings.showSeconds;
   document.getElementById('showTimezone').checked = settings.showTimezone;
   document.getElementById('theme').value = settings.theme;
+  
+  // Load blacklist
+  renderBlacklist(settings.toolbarBlacklist || []);
 }
 
 // Save settings to storage
 async function saveSettings() {
+  // Get current blacklist from DOM
+  const blacklistItems = Array.from(document.querySelectorAll('.blacklist-item'))
+    .map(item => item.dataset.domain)
+    .filter(Boolean);
+  
   const settings = {
     toolbarEnabled: document.getElementById('toolbarEnabled').checked,
     toolbarPosition: document.getElementById('toolbarPosition').value,
     toolbarMinimized: false, // Reset on save
+    toolbarBlacklist: blacklistItems,
     timeFormat: document.getElementById('timeFormat').value,
     dateFormat: document.getElementById('dateFormat').value,
     showSeconds: document.getElementById('showSeconds').checked,
@@ -72,3 +82,77 @@ async function resetSettings() {
     }, 3000);
   }
 }
+
+// Render blacklist
+function renderBlacklist(blacklist) {
+  const container = document.getElementById('blacklistItems');
+  if (!container) return;
+  
+  container.innerHTML = blacklist.map(domain => `
+    <div class="blacklist-item" data-domain="${domain}">
+      <span>${domain}</span>
+      <button class="delete-blacklist-btn" data-domain="${domain}">✕</button>
+    </div>
+  `).join('');
+  
+  // Add delete listeners
+  document.querySelectorAll('.delete-blacklist-btn').forEach(btn => {
+    btn.addEventListener('click', () => removeFromBlacklist(btn.dataset.domain));
+  });
+}
+
+// Add domain to blacklist
+function addToBlacklist() {
+  const input = document.getElementById('blacklistInput');
+  if (!input) return;
+  
+  let domain = input.value.trim();
+  if (!domain) return;
+  
+  // Clean up the domain - remove protocol and path
+  domain = domain.replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0];
+  
+  // Get current blacklist
+  const currentItems = Array.from(document.querySelectorAll('.blacklist-item'))
+    .map(item => item.dataset.domain);
+  
+  // Check if already exists
+  if (currentItems.includes(domain)) {
+    alert('This domain is already in the blacklist!');
+    return;
+  }
+  
+  // Add to list
+  currentItems.push(domain);
+  renderBlacklist(currentItems);
+  
+  // Clear input
+  input.value = '';
+}
+
+// Remove domain from blacklist
+function removeFromBlacklist(domain) {
+  const currentItems = Array.from(document.querySelectorAll('.blacklist-item'))
+    .map(item => item.dataset.domain)
+    .filter(d => d !== domain);
+  
+  renderBlacklist(currentItems);
+}
+
+// Setup blacklist event listeners
+document.addEventListener('DOMContentLoaded', () => {
+  const addBtn = document.getElementById('addBlacklistBtn');
+  const input = document.getElementById('blacklistInput');
+  
+  if (addBtn) {
+    addBtn.addEventListener('click', addToBlacklist);
+  }
+  
+  if (input) {
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        addToBlacklist();
+      }
+    });
+  }
+});

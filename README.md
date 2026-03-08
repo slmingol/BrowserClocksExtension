@@ -61,6 +61,7 @@ You can use any design tool or icon generator. Suggested design: Orange fox cloc
 Access settings to customize:
 - **Toolbar:** Enable/disable persistent toolbar on all pages
 - **Position:** Choose where toolbar appears (top/bottom/left/right)
+- **Blacklist:** Exclude specific websites from showing the toolbar
 - Time format (12/24 hour)
 - Date format (short/long/numeric)
 - Show/hide seconds
