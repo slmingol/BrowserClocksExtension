@@ -2,6 +2,16 @@
 
 A modern, open-source browser extension for tracking time across multiple timezones. Built with Manifest V3 for Chrome, Firefox, and Edge.
 
+## Screenshots
+
+**Extension Popup**
+
+![Extension Popup](screenshots/popup.png)
+
+**Persistent Toolbar**
+
+![Toolbar](screenshots/toolbar.png)
+
 ## Features
 
 - ⏰ **Multiple Timezone Clocks** - Track time in cities around the world
