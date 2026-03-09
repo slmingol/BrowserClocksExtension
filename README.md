@@ -6,7 +6,7 @@ A modern, open-source browser extension for tracking time across multiple timezo
 
 **Extension Popup**
 
-![Extension Popup](screenshots/popup.png)
+<img src="screenshots/popup.png" alt="Extension Popup" width="350">
 
 **Persistent Toolbar**
 
