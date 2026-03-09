@@ -96,13 +96,18 @@ Access settings to customize:
 ```
 BrowserClocksExtension/
 ├── manifest.json       # Extension manifest
+├── background.js       # Background service worker
 ├── popup.html          # Main popup interface
 ├── popup.js            # Popup logic
 ├── popup.css           # Popup styling
 ├── options.html        # Settings page
 ├── options.js          # Settings logic
-├── background.js       # Background service worker
-├── icons/              # Extension icons (create these)
+├── toolbar.js          # Toolbar content script
+├── toolbar.css         # Toolbar styling
+├── icons/              # Extension icons
+├── docs/               # Documentation
+│   ├── CICD.md         # CI/CD setup guide
+│   └── QUICKSTART.md   # Quick start guide
 └── README.md           # This file
 ```
 
@@ -135,6 +140,11 @@ Potential features for future versions:
 - ✅ Firefox 109+ (with minor manifest adjustments)
 - ✅ Opera 74+
 - ✅ Brave
+
+## Documentation
+
+- [Quick Start Guide](docs/QUICKSTART.md) - Get started quickly
+- [CI/CD Setup](docs/CICD.md) - Automated building, versioning, and releasing
 
 ## Contributing
 
