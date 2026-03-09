@@ -12,6 +12,10 @@ A modern, open-source browser extension for tracking time across multiple timezo
 
 ![Toolbar](screenshots/toolbar.png)
 
+**Settings Page**
+
+<img src="screenshots/config.png" alt="Settings Configuration" width="600">
+
 ## Features
 
 - ⏰ **Multiple Timezone Clocks** - Track time in cities around the world
