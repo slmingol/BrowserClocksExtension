@@ -50,7 +50,7 @@ body {
   flex-direction: column;
   gap: 6px;
   margin-bottom: 8px;
-  max-height: 400px;
+  max-height: 550px;
   overflow-y: auto;
 }
 
