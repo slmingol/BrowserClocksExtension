@@ -13,6 +13,8 @@ on:
 jobs:
   auto-bump:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     
     # Skip if commit is from github-actions bot (prevent infinite loop)
     if: "!contains(github.event.head_commit.message, '[skip-version]') && github.event.head_commit.author.username != 'github-actions[bot]'"
