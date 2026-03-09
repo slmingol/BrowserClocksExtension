@@ -1,56 +1,165 @@
 // Popular timezones with cities
 const TIMEZONES = [
+  // USA - Eastern Time
   { city: 'New York', timezone: 'America/New_York', country: 'USA', countryCode: 'US' },
-  { city: 'Los Angeles', timezone: 'America/Los_Angeles', country: 'USA', countryCode: 'US' },
+  { city: 'Boston', timezone: 'America/New_York', country: 'USA', countryCode: 'US' },
+  { city: 'Philadelphia', timezone: 'America/New_York', country: 'USA', countryCode: 'US' },
+  { city: 'Miami', timezone: 'America/New_York', country: 'USA', countryCode: 'US' },
+  { city: 'Atlanta', timezone: 'America/New_York', country: 'USA', countryCode: 'US' },
+  { city: 'Washington DC', timezone: 'America/New_York', country: 'USA', countryCode: 'US' },
+  { city: 'Detroit', timezone: 'America/Detroit', country: 'USA', countryCode: 'US' },
+  
+  // USA - Central Time
   { city: 'Chicago', timezone: 'America/Chicago', country: 'USA', countryCode: 'US' },
+  { city: 'Dallas', timezone: 'America/Chicago', country: 'USA', countryCode: 'US' },
+  { city: 'Houston', timezone: 'America/Chicago', country: 'USA', countryCode: 'US' },
+  { city: 'Austin', timezone: 'America/Chicago', country: 'USA', countryCode: 'US' },
+  { city: 'San Antonio', timezone: 'America/Chicago', country: 'USA', countryCode: 'US' },
+  { city: 'Minneapolis', timezone: 'America/Chicago', country: 'USA', countryCode: 'US' },
+  { city: 'New Orleans', timezone: 'America/Chicago', country: 'USA', countryCode: 'US' },
+  { city: 'Memphis', timezone: 'America/Chicago', country: 'USA', countryCode: 'US' },
+  { city: 'Nashville', timezone: 'America/Chicago', country: 'USA', countryCode: 'US' },
+  { city: 'St. Louis', timezone: 'America/Chicago', country: 'USA', countryCode: 'US' },
+  { city: 'Kansas City', timezone: 'America/Chicago', country: 'USA', countryCode: 'US' },
+  
+  // USA - Mountain Time
   { city: 'Denver', timezone: 'America/Denver', country: 'USA', countryCode: 'US' },
-  { city: 'London', timezone: 'Europe/London', country: 'UK', countryCode: 'GB' },
-  { city: 'Paris', timezone: 'Europe/Paris', country: 'France', countryCode: 'FR' },
-  { city: 'Berlin', timezone: 'Europe/Berlin', country: 'Germany', countryCode: 'DE' },
-  { city: 'Tokyo', timezone: 'Asia/Tokyo', country: 'Japan', countryCode: 'JP' },
-  { city: 'Sydney', timezone: 'Australia/Sydney', country: 'Australia', countryCode: 'AU' },
-  { city: 'Hong Kong', timezone: 'Asia/Hong_Kong', country: 'China', countryCode: 'HK' },
-  { city: 'Singapore', timezone: 'Asia/Singapore', country: 'Singapore', countryCode: 'SG' },
-  { city: 'Dubai', timezone: 'Asia/Dubai', country: 'UAE', countryCode: 'AE' },
-  { city: 'Mumbai', timezone: 'Asia/Kolkata', country: 'India', countryCode: 'IN' },
-  { city: 'Moscow', timezone: 'Europe/Moscow', country: 'Russia', countryCode: 'RU' },
-  { city: 'São Paulo', timezone: 'America/Sao_Paulo', country: 'Brazil', countryCode: 'BR' },
-  { city: 'Mexico City', timezone: 'America/Mexico_City', country: 'Mexico', countryCode: 'MX' },
+  { city: 'Salt Lake City', timezone: 'America/Denver', country: 'USA', countryCode: 'US' },
+  { city: 'Albuquerque', timezone: 'America/Denver', country: 'USA', countryCode: 'US' },
+  { city: 'Boise', timezone: 'America/Boise', country: 'USA', countryCode: 'US' },
+  { city: 'Phoenix', timezone: 'America/Phoenix', country: 'USA', countryCode: 'US' },
+  
+  // USA - Pacific Time
+  { city: 'Los Angeles', timezone: 'America/Los_Angeles', country: 'USA', countryCode: 'US' },
+  { city: 'San Francisco', timezone: 'America/Los_Angeles', country: 'USA', countryCode: 'US' },
+  { city: 'San Diego', timezone: 'America/Los_Angeles', country: 'USA', countryCode: 'US' },
+  { city: 'Seattle', timezone: 'America/Los_Angeles', country: 'USA', countryCode: 'US' },
+  { city: 'Portland', timezone: 'America/Los_Angeles', country: 'USA', countryCode: 'US' },
+  { city: 'Las Vegas', timezone: 'America/Los_Angeles', country: 'USA', countryCode: 'US' },
+  { city: 'Sacramento', timezone: 'America/Los_Angeles', country: 'USA', countryCode: 'US' },
+  
+  // USA - Alaska & Hawaii
+  { city: 'Anchorage', timezone: 'America/Anchorage', country: 'USA', countryCode: 'US' },
+  { city: 'Honolulu', timezone: 'Pacific/Honolulu', country: 'USA', countryCode: 'US' },
+  
+  // Canada
   { city: 'Toronto', timezone: 'America/Toronto', country: 'Canada', countryCode: 'CA' },
+  { city: 'Montreal', timezone: 'America/Toronto', country: 'Canada', countryCode: 'CA' },
+  { city: 'Ottawa', timezone: 'America/Toronto', country: 'Canada', countryCode: 'CA' },
   { city: 'Vancouver', timezone: 'America/Vancouver', country: 'Canada', countryCode: 'CA' },
-  { city: 'Auckland', timezone: 'Pacific/Auckland', country: 'New Zealand', countryCode: 'NZ' },
-  { city: 'Seoul', timezone: 'Asia/Seoul', country: 'South Korea', countryCode: 'KR' },
-  { city: 'Bangkok', timezone: 'Asia/Bangkok', country: 'Thailand', countryCode: 'TH' },
-  { city: 'Istanbul', timezone: 'Europe/Istanbul', country: 'Turkey', countryCode: 'TR' },
-  { city: 'Amsterdam', timezone: 'Europe/Amsterdam', country: 'Netherlands', countryCode: 'NL' },
-  { city: 'Barcelona', timezone: 'Europe/Madrid', country: 'Spain', countryCode: 'ES' },
-  { city: 'Rome', timezone: 'Europe/Rome', country: 'Italy', countryCode: 'IT' },
-  { city: 'Zurich', timezone: 'Europe/Zurich', country: 'Switzerland', countryCode: 'CH' },
-  { city: 'Stockholm', timezone: 'Europe/Stockholm', country: 'Sweden', countryCode: 'SE' },
-  { city: 'Copenhagen', timezone: 'Europe/Copenhagen', country: 'Denmark', countryCode: 'DK' },
-  { city: 'Dublin', timezone: 'Europe/Dublin', country: 'Ireland', countryCode: 'IE' },
-  { city: 'Lisbon', timezone: 'Europe/Lisbon', country: 'Portugal', countryCode: 'PT' },
-  { city: 'Athens', timezone: 'Europe/Athens', country: 'Greece', countryCode: 'GR' },
-  { city: 'Cairo', timezone: 'Africa/Cairo', country: 'Egypt', countryCode: 'EG' },
-  { city: 'Johannesburg', timezone: 'Africa/Johannesburg', country: 'South Africa', countryCode: 'ZA' },
-  { city: 'Lagos', timezone: 'Africa/Lagos', country: 'Nigeria', countryCode: 'NG' },
-  { city: 'Shanghai', timezone: 'Asia/Shanghai', country: 'China', countryCode: 'CN' },
-  { city: 'Beijing', timezone: 'Asia/Shanghai', country: 'China', countryCode: 'CN' },
-  { city: 'Taipei', timezone: 'Asia/Taipei', country: 'Taiwan', countryCode: 'TW' },
-  { city: 'Manila', timezone: 'Asia/Manila', country: 'Philippines', countryCode: 'PH' },
-  { city: 'Jakarta', timezone: 'Asia/Jakarta', country: 'Indonesia', countryCode: 'ID' },
-  { city: 'Kuala Lumpur', timezone: 'Asia/Kuala_Lumpur', country: 'Malaysia', countryCode: 'MY' },
-  { city: 'Ho Chi Minh', timezone: 'Asia/Ho_Chi_Minh', country: 'Vietnam', countryCode: 'VN' },
-  { city: 'Karachi', timezone: 'Asia/Karachi', country: 'Pakistan', countryCode: 'PK' },
-  { city: 'Tehran', timezone: 'Asia/Tehran', country: 'Iran', countryCode: 'IR' },
-  { city: 'Jerusalem', timezone: 'Asia/Jerusalem', country: 'Israel', countryCode: 'IL' },
+  { city: 'Calgary', timezone: 'America/Edmonton', country: 'Canada', countryCode: 'CA' },
+  { city: 'Edmonton', timezone: 'America/Edmonton', country: 'Canada', countryCode: 'CA' },
+  { city: 'Winnipeg', timezone: 'America/Winnipeg', country: 'Canada', countryCode: 'CA' },
+  { city: 'Halifax', timezone: 'America/Halifax', country: 'Canada', countryCode: 'CA' },
+  
+  // Mexico & Central America
+  { city: 'Mexico City', timezone: 'America/Mexico_City', country: 'Mexico', countryCode: 'MX' },
+  { city: 'Guadalajara', timezone: 'America/Mexico_City', country: 'Mexico', countryCode: 'MX' },
+  { city: 'Monterrey', timezone: 'America/Monterrey', country: 'Mexico', countryCode: 'MX' },
+  { city: 'Cancún', timezone: 'America/Cancun', country: 'Mexico', countryCode: 'MX' },
+  { city: 'Tijuana', timezone: 'America/Tijuana', country: 'Mexico', countryCode: 'MX' },
+  
+  // South America
+  { city: 'São Paulo', timezone: 'America/Sao_Paulo', country: 'Brazil', countryCode: 'BR' },
+  { city: 'Rio de Janeiro', timezone: 'America/Sao_Paulo', country: 'Brazil', countryCode: 'BR' },
+  { city: 'Brasília', timezone: 'America/Sao_Paulo', country: 'Brazil', countryCode: 'BR' },
   { city: 'Buenos Aires', timezone: 'America/Argentina/Buenos_Aires', country: 'Argentina', countryCode: 'AR' },
   { city: 'Santiago', timezone: 'America/Santiago', country: 'Chile', countryCode: 'CL' },
   { city: 'Lima', timezone: 'America/Lima', country: 'Peru', countryCode: 'PE' },
   { city: 'Bogotá', timezone: 'America/Bogota', country: 'Colombia', countryCode: 'CO' },
   { city: 'Caracas', timezone: 'America/Caracas', country: 'Venezuela', countryCode: 'VE' },
-  { city: 'Honolulu', timezone: 'Pacific/Honolulu', country: 'USA', countryCode: 'US' },
-  { city: 'Anchorage', timezone: 'America/Anchorage', country: 'USA', countryCode: 'US' },
+  
+  // UK & Ireland
+  { city: 'London', timezone: 'Europe/London', country: 'UK', countryCode: 'GB' },
+  { city: 'Manchester', timezone: 'Europe/London', country: 'UK', countryCode: 'GB' },
+  { city: 'Edinburgh', timezone: 'Europe/London', country: 'UK', countryCode: 'GB' },
+  { city: 'Birmingham', timezone: 'Europe/London', country: 'UK', countryCode: 'GB' },
+  { city: 'Dublin', timezone: 'Europe/Dublin', country: 'Ireland', countryCode: 'IE' },
+  
+  // Western Europe
+  { city: 'Paris', timezone: 'Europe/Paris', country: 'France', countryCode: 'FR' },
+  { city: 'Lyon', timezone: 'Europe/Paris', country: 'France', countryCode: 'FR' },
+  { city: 'Marseille', timezone: 'Europe/Paris', country: 'France', countryCode: 'FR' },
+  { city: 'Berlin', timezone: 'Europe/Berlin', country: 'Germany', countryCode: 'DE' },
+  { city: 'Munich', timezone: 'Europe/Berlin', country: 'Germany', countryCode: 'DE' },
+  { city: 'Frankfurt', timezone: 'Europe/Berlin', country: 'Germany', countryCode: 'DE' },
+  { city: 'Hamburg', timezone: 'Europe/Berlin', country: 'Germany', countryCode: 'DE' },
+  { city: 'Amsterdam', timezone: 'Europe/Amsterdam', country: 'Netherlands', countryCode: 'NL' },
+  { city: 'Brussels', timezone: 'Europe/Brussels', country: 'Belgium', countryCode: 'BE' },
+  { city: 'Zurich', timezone: 'Europe/Zurich', country: 'Switzerland', countryCode: 'CH' },
+  { city: 'Geneva', timezone: 'Europe/Zurich', country: 'Switzerland', countryCode: 'CH' },
+  { city: 'Vienna', timezone: 'Europe/Vienna', country: 'Austria', countryCode: 'AT' },
+  
+  // Southern Europe
+  { city: 'Madrid', timezone: 'Europe/Madrid', country: 'Spain', countryCode: 'ES' },
+  { city: 'Barcelona', timezone: 'Europe/Madrid', country: 'Spain', countryCode: 'ES' },
+  { city: 'Rome', timezone: 'Europe/Rome', country: 'Italy', countryCode: 'IT' },
+  { city: 'Milan', timezone: 'Europe/Rome', country: 'Italy', countryCode: 'IT' },
+  { city: 'Venice', timezone: 'Europe/Rome', country: 'Italy', countryCode: 'IT' },
+  { city: 'Lisbon', timezone: 'Europe/Lisbon', country: 'Portugal', countryCode: 'PT' },
+  { city: 'Athens', timezone: 'Europe/Athens', country: 'Greece', countryCode: 'GR' },
+  
+  // Northern Europe
+  { city: 'Stockholm', timezone: 'Europe/Stockholm', country: 'Sweden', countryCode: 'SE' },
+  { city: 'Copenhagen', timezone: 'Europe/Copenhagen', country: 'Denmark', countryCode: 'DK' },
+  { city: 'Oslo', timezone: 'Europe/Oslo', country: 'Norway', countryCode: 'NO' },
+  { city: 'Helsinki', timezone: 'Europe/Helsinki', country: 'Finland', countryCode: 'FI' },
+  
+  // Eastern Europe
+  { city: 'Moscow', timezone: 'Europe/Moscow', country: 'Russia', countryCode: 'RU' },
+  { city: 'Istanbul', timezone: 'Europe/Istanbul', country: 'Turkey', countryCode: 'TR' },
+  { city: 'Warsaw', timezone: 'Europe/Warsaw', country: 'Poland', countryCode: 'PL' },
+  { city: 'Prague', timezone: 'Europe/Prague', country: 'Czech Republic', countryCode: 'CZ' },
+  { city: 'Budapest', timezone: 'Europe/Budapest', country: 'Hungary', countryCode: 'HU' },
+  
+  // Middle East & Africa
+  { city: 'Dubai', timezone: 'Asia/Dubai', country: 'UAE', countryCode: 'AE' },
+  { city: 'Abu Dhabi', timezone: 'Asia/Dubai', country: 'UAE', countryCode: 'AE' },
+  { city: 'Riyadh', timezone: 'Asia/Riyadh', country: 'Saudi Arabia', countryCode: 'SA' },
+  { city: 'Tel Aviv', timezone: 'Asia/Jerusalem', country: 'Israel', countryCode: 'IL' },
+  { city: 'Jerusalem', timezone: 'Asia/Jerusalem', country: 'Israel', countryCode: 'IL' },
+  { city: 'Tehran', timezone: 'Asia/Tehran', country: 'Iran', countryCode: 'IR' },
+  { city: 'Cairo', timezone: 'Africa/Cairo', country: 'Egypt', countryCode: 'EG' },
+  { city: 'Johannesburg', timezone: 'Africa/Johannesburg', country: 'South Africa', countryCode: 'ZA' },
+  { city: 'Cape Town', timezone: 'Africa/Johannesburg', country: 'South Africa', countryCode: 'ZA' },
+  { city: 'Lagos', timezone: 'Africa/Lagos', country: 'Nigeria', countryCode: 'NG' },
+  { city: 'Nairobi', timezone: 'Africa/Nairobi', country: 'Kenya', countryCode: 'KE' },
+  
+  // India & South Asia
+  { city: 'Mumbai', timezone: 'Asia/Kolkata', country: 'India', countryCode: 'IN' },
+  { city: 'Delhi', timezone: 'Asia/Kolkata', country: 'India', countryCode: 'IN' },
+  { city: 'Bangalore', timezone: 'Asia/Kolkata', country: 'India', countryCode: 'IN' },
+  { city: 'Kolkata', timezone: 'Asia/Kolkata', country: 'India', countryCode: 'IN' },
+  { city: 'Chennai', timezone: 'Asia/Kolkata', country: 'India', countryCode: 'IN' },
+  { city: 'Karachi', timezone: 'Asia/Karachi', country: 'Pakistan', countryCode: 'PK' },
+  { city: 'Dhaka', timezone: 'Asia/Dhaka', country: 'Bangladesh', countryCode: 'BD' },
+  
+  // East Asia
+  { city: 'Tokyo', timezone: 'Asia/Tokyo', country: 'Japan', countryCode: 'JP' },
+  { city: 'Osaka', timezone: 'Asia/Tokyo', country: 'Japan', countryCode: 'JP' },
+  { city: 'Seoul', timezone: 'Asia/Seoul', country: 'South Korea', countryCode: 'KR' },
+  { city: 'Beijing', timezone: 'Asia/Shanghai', country: 'China', countryCode: 'CN' },
+  { city: 'Shanghai', timezone: 'Asia/Shanghai', country: 'China', countryCode: 'CN' },
+  { city: 'Shenzhen', timezone: 'Asia/Shanghai', country: 'China', countryCode: 'CN' },
+  { city: 'Hong Kong', timezone: 'Asia/Hong_Kong', country: 'Hong Kong', countryCode: 'HK' },
+  { city: 'Taipei', timezone: 'Asia/Taipei', country: 'Taiwan', countryCode: 'TW' },
+  
+  // Southeast Asia
+  { city: 'Singapore', timezone: 'Asia/Singapore', country: 'Singapore', countryCode: 'SG' },
+  { city: 'Bangkok', timezone: 'Asia/Bangkok', country: 'Thailand', countryCode: 'TH' },
+  { city: 'Manila', timezone: 'Asia/Manila', country: 'Philippines', countryCode: 'PH' },
+  { city: 'Jakarta', timezone: 'Asia/Jakarta', country: 'Indonesia', countryCode: 'ID' },
+  { city: 'Kuala Lumpur', timezone: 'Asia/Kuala_Lumpur', country: 'Malaysia', countryCode: 'MY' },
+  { city: 'Ho Chi Minh City', timezone: 'Asia/Ho_Chi_Minh', country: 'Vietnam', countryCode: 'VN' },
+  { city: 'Hanoi', timezone: 'Asia/Ho_Chi_Minh', country: 'Vietnam', countryCode: 'VN' },
+  
+  // Australia & Pacific
+  { city: 'Sydney', timezone: 'Australia/Sydney', country: 'Australia', countryCode: 'AU' },
+  { city: 'Melbourne', timezone: 'Australia/Melbourne', country: 'Australia', countryCode: 'AU' },
+  { city: 'Brisbane', timezone: 'Australia/Brisbane', country: 'Australia', countryCode: 'AU' },
+  { city: 'Perth', timezone: 'Australia/Perth', country: 'Australia', countryCode: 'AU' },
+  { city: 'Auckland', timezone: 'Pacific/Auckland', country: 'New Zealand', countryCode: 'NZ' },
+  { city: 'Wellington', timezone: 'Pacific/Auckland', country: 'New Zealand', countryCode: 'NZ' },
 ];
 
 let clocks = [];
