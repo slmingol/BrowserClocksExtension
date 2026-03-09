@@ -41,7 +41,7 @@ A modern, open-source browser extension for tracking time across multiple timezo
    - Open `chrome://extensions/`
    - Enable "Developer mode"
    - Click "Load unpacked"
-   - Select the `foxclocks-clone` folder
+   - Select the `BrowserClocksExtension` folder
 
 3. **Load in Firefox:**
    - Open `about:debugging#/runtime/this-firefox`
