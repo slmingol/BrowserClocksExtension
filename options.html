@@ -13,89 +13,154 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      background: #f5f5f5;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       color: #333;
-      padding: 40px 20px;
+      padding: 20px;
+      min-height: 100vh;
     }
 
     .container {
-      max-width: 800px;
+      max-width: 1400px;
       margin: 0 auto;
       background: white;
-      border-radius: 12px;
-      padding: 40px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #f0f0f0;
     }
 
     h1 {
-      font-size: 32px;
-      margin-bottom: 8px;
+      font-size: 28px;
       color: #ff9500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .subtitle {
-      color: #666;
-      margin-bottom: 32px;
+      color: #999;
+      font-size: 13px;
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 16px;
+      margin-bottom: 16px;
     }
 
     .section {
-      margin-bottom: 32px;
+      background: #fafafa;
+      border-radius: 12px;
+      padding: 16px;
+      border: 1px solid #e0e0e0;
     }
 
     .section h2 {
-      font-size: 20px;
-      margin-bottom: 16px;
+      font-size: 16px;
+      margin-bottom: 12px;
       color: #333;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section h2::before {
+      content: '';
+      width: 4px;
+      height: 16px;
+      background: #ff9500;
+      border-radius: 2px;
     }
 
     .setting-item {
-      margin-bottom: 20px;
-      padding: 16px;
-      background: #f9f9f9;
-      border-radius: 8px;
+      margin-bottom: 12px;
+      padding: 10px;
+      background: white;
+      border-radius: 6px;
+      border: 1px solid #eee;
+    }
+
+    .setting-item:last-child {
+      margin-bottom: 0;
     }
 
     .setting-item label {
       display: block;
       font-weight: 600;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
+      font-size: 13px;
+      color: #555;
     }
 
     .setting-item select,
     .setting-item input[type="text"] {
       width: 100%;
-      padding: 10px;
+      padding: 8px 10px;
       border: 1px solid #ddd;
       border-radius: 6px;
-      font-size: 14px;
+      font-size: 13px;
+      transition: border-color 0.2s;
+    }
+
+    .setting-item select:focus,
+    .setting-item input[type="text"]:focus {
+      outline: none;
+      border-color: #ff9500;
     }
 
     .setting-item input[type="checkbox"] {
-      width: 20px;
-      height: 20px;
-      margin-right: 8px;
+      width: 18px;
+      height: 18px;
+      margin-right: 6px;
+      cursor: pointer;
+    }
+
+    .setting-item input[type="range"] {
+      cursor: pointer;
     }
 
     .checkbox-label {
       display: flex;
       align-items: center;
       cursor: pointer;
+      font-weight: 500;
+      font-size: 13px;
+    }
+
+    .setting-help {
+      font-size: 11px;
+      color: #999;
+      margin-top: 4px;
+      line-height: 1.4;
     }
 
     .button-group {
       display: flex;
-      gap: 12px;
-      margin-top: 32px;
+      gap: 10px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 2px solid #f0f0f0;
     }
 
     .btn {
-      padding: 12px 24px;
+      padding: 10px 20px;
       border: none;
       border-radius: 6px;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
+      flex: 1;
     }
 
     .btn-primary {
@@ -105,6 +170,8 @@
 
     .btn-primary:hover {
       background: #ff8800;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(255, 149, 0, 0.3);
     }
 
     .btn-secondary {
@@ -117,12 +184,14 @@
     }
 
     .success-message {
-      background: #4caf50;
+      background: linear-gradient(135deg, #4caf50, #45a049);
       color: white;
       padding: 12px 16px;
-      border-radius: 6px;
+      border-radius: 8px;
       margin-top: 16px;
       display: none;
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
     }
 
     .success-message.show {
@@ -131,33 +200,38 @@
     }
 
     @keyframes fadeInOut {
-      0%, 100% { opacity: 0; }
-      10%, 90% { opacity: 1; }
+      0%, 100% { opacity: 0; transform: translateY(-10px); }
+      10%, 90% { opacity: 1; transform: translateY(0); }
     }
 
     .info-box {
-      background: #e3f2fd;
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
       border-left: 4px solid #2196f3;
-      padding: 16px;
-      border-radius: 4px;
-      margin-top: 16px;
+      padding: 12px;
+      border-radius: 8px;
+      margin-top: 0;
     }
 
     .info-box p {
       margin: 0;
-      color: #1976d2;
-      font-size: 14px;
+      color: #1565c0;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .info-box p + p {
+      margin-top: 4px;
     }
 
     .blacklist-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 8px 12px;
+      padding: 6px 10px;
       background: #f9f9f9;
       border: 1px solid #ddd;
       border-radius: 4px;
-      font-size: 14px;
+      font-size: 12px;
     }
 
     .delete-blacklist-btn {
@@ -165,199 +239,209 @@
       color: white;
       border: none;
       border-radius: 4px;
-      padding: 4px 8px;
+      padding: 2px 8px;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 12px;
       transition: background 0.2s;
+      font-weight: 600;
     }
 
     .delete-blacklist-btn:hover {
       background: #cc0000;
     }
+
+    .value-display {
+      display: inline-block;
+      min-width: 35px;
+      text-align: right;
+      font-weight: 700;
+      color: #ff9500;
+    }
+
+    .full-width {
+      grid-column: 1 / -1;
+    }
+
+    @media (max-width: 1000px) {
+      .settings-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>🕐 BrowserClocks Settings</h1>
-    <p class="subtitle">Customize your world clock experience</p>
-
-    <div class="section">
-      <h2>Toolbar</h2>
-      
-      <div class="setting-item">
-        <label class="checkbox-label">
-          <input type="checkbox" id="toolbarEnabled">
-          <span>Show persistent toolbar on all pages (like FoxClocks)</span>
-        </label>
+    <header>
+      <div>
+        <h1>🕐 BrowserClocks Settings</h1>
+        <p class="subtitle">Customize your world clock experience</p>
       </div>
+    </header>
 
-      <div class="setting-item">
-        <label class="checkbox-label">
-          <input type="checkbox" id="showAppName">
-          <span>Show "BrowserClocks" name in toolbar</span>
-        </label>
-      </div>
-
-      <div class="setting-item">
-        <label for="toolbarPosition">Toolbar Position</label>
-        <select id="toolbarPosition">
-          <option value="top">Top</option>
-          <option value="bottom">Bottom</option>
-          <option value="left">Left Side</option>
-          <option value="right">Right Side</option>
-        </select>
-      </div>
-
-      <div class="setting-item">
-        <label for="toolbarAlign">Content Alignment</label>
-        <select id="toolbarAlign">
-          <option value="left">Left</option>
-          <option value="center">Center</option>
-          <option value="right">Right</option>
-        </select>
-      </div>
-
-      <div class="setting-item">
-        <label for="toolbarHeight">Toolbar Height (top/bottom position): <span id="toolbarHeightValue">32</span>px</label>
-        <input type="range" id="toolbarHeight" min="12" max="80" step="2" value="32" style="width: 100%; margin-top: 8px;">
-        <p style="font-size: 12px; color: #666; margin-top: 4px;">Adjust the height of the toolbar when positioned at top or bottom</p>
-      </div>
-
-      <div class="setting-item">
-        <label>Blacklisted Websites (toolbar won't appear)</label>
-        <p style="font-size: 12px; color: #666; margin-bottom: 8px;">
-          Add domains where you don't want the toolbar to appear (e.g., "github.com", "mail.google.com")
-        </p>
-        <div style="display: flex; gap: 8px; margin-bottom: 12px;">
-          <input type="text" id="blacklistInput" placeholder="Enter domain (e.g., github.com)" style="flex: 1;">
-          <button type="button" id="addBlacklistBtn" class="btn btn-primary" style="padding: 8px 16px;">Add</button>
+    <div class="settings-grid">
+      <!-- Toolbar Settings -->
+      <div class="section">
+        <h2>Toolbar</h2>
+        
+        <div class="setting-item">
+          <label class="checkbox-label">
+            <input type="checkbox" id="toolbarEnabled">
+            <span>Enable persistent toolbar</span>
+          </label>
         </div>
-        <div id="blacklistItems" style="display: flex; flex-direction: column; gap: 6px; max-height: 200px; overflow-y: auto;">
-          <!-- Blacklist items will be added here -->
+
+        <div class="setting-item">
+          <label class="checkbox-label">
+            <input type="checkbox" id="showAppName">
+            <span>Show "BrowserClocks" name</span>
+          </label>
+        </div>
+
+        <div class="setting-item">
+          <label for="toolbarPosition">Position</label>
+          <select id="toolbarPosition">
+            <option value="top">Top</option>
+            <option value="bottom">Bottom</option>
+            <option value="left">Left Side</option>
+            <option value="right">Right Side</option>
+          </select>
+        </div>
+
+        <div class="setting-item">
+          <label for="toolbarAlign">Alignment</label>
+          <select id="toolbarAlign">
+            <option value="left">Left</option>
+            <option value="center">Center</option>
+            <option value="right">Right</option>
+          </select>
+        </div>
+
+        <div class="setting-item">
+          <label for="toolbarHeight">Height (top/bottom): <span id="toolbarHeightValue" class="value-display">32</span>px</label>
+          <input type="range" id="toolbarHeight" min="12" max="80" step="2" value="32" style="width: 100%;">
         </div>
       </div>
-    </div>
 
-    <div class="section">
-      <h2>Display Options</h2>
-      
-      <div class="setting-item">
-        <label for="timeFormat">Time Format</label>
-        <select id="timeFormat">
-          <option value="12">12-hour (AM/PM)</option>
-          <option value="24">24-hour</option>
-        </select>
+      <!-- Display Options -->
+      <div class="section">
+        <h2>Display</h2>
+        
+        <div class="setting-item">
+          <label for="timeFormat">Time Format</label>
+          <select id="timeFormat">
+            <option value="12">12-hour (AM/PM)</option>
+            <option value="24">24-hour</option>
+          </select>
+        </div>
+
+        <div class="setting-item">
+          <label for="dateFormat">Date Format</label>
+          <select id="dateFormat">
+            <option value="short">Short (Jan 1, 2026)</option>
+            <option value="long">Long (January 1, 2026)</option>
+            <option value="numeric">Numeric (01/01/2026)</option>
+          </select>
+        </div>
+
+        <div class="setting-item">
+          <label class="checkbox-label">
+            <input type="checkbox" id="showSeconds">
+            <span>Show seconds</span>
+          </label>
+        </div>
+
+        <div class="setting-item">
+          <label class="checkbox-label">
+            <input type="checkbox" id="showTimezone">
+            <span>Show timezone abbreviation</span>
+          </label>
+        </div>
+
+        <div class="setting-item">
+          <label for="timeSize">Toolbar Time Size: <span id="timeSizeValue" class="value-display">14</span>px</label>
+          <input type="range" id="timeSize" min="10" max="24" step="1" value="14" style="width: 100%;">
+        </div>
+
+        <div class="setting-item">
+          <label for="popupFontSize">Popup Font Size: <span id="popupFontSizeValue" class="value-display">14</span>px</label>
+          <input type="range" id="popupFontSize" min="10" max="20" step="1" value="14" style="width: 100%;">
+        </div>
       </div>
 
-      <div class="setting-item">
-        <label for="dateFormat">Date Format</label>
-        <select id="dateFormat">
-          <option value="short">Short (Jan 1, 2026)</option>
-          <option value="long">Long (January 1, 2026)</option>
-          <option value="numeric">Numeric (01/01/2026)</option>
-        </select>
+      <!-- Appearance -->
+      <div class="section">
+        <h2>Appearance</h2>
+        
+        <div class="setting-item">
+          <label for="theme">Theme</label>
+          <select id="theme">
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+            <option value="auto">Auto (System)</option>
+          </select>
+        </div>
+
+        <div class="setting-item">
+          <label for="fontFamily">Font Family</label>
+          <select id="fontFamily">
+            <option value="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif">System Default</option>
+            <optgroup label="Sans-Serif">
+              <option value="Arial, sans-serif">Arial</option>
+              <option value="Helvetica, Arial, sans-serif">Helvetica</option>
+              <option value="'Helvetica Neue', Helvetica, Arial, sans-serif">Helvetica Neue</option>
+              <option value="Verdana, sans-serif">Verdana</option>
+              <option value="Tahoma, sans-serif">Tahoma</option>
+              <option value="Roboto, sans-serif">Roboto</option>
+            </optgroup>
+            <optgroup label="Serif">
+              <option value="Georgia, serif">Georgia</option>
+              <option value="'Times New Roman', Times, serif">Times New Roman</option>
+              <option value="Garamond, serif">Garamond</option>
+            </optgroup>
+            <optgroup label="Monospace">
+              <option value="'Courier New', Courier, monospace">Courier New</option>
+              <option value="Monaco, 'Lucida Console', monospace">Monaco</option>
+              <option value="Consolas, monospace">Consolas</option>
+              <option value="Menlo, Monaco, monospace">Menlo</option>
+            </optgroup>
+          </select>
+        </div>
       </div>
 
-      <div class="setting-item">
-        <label class="checkbox-label">
-          <input type="checkbox" id="showSeconds">
-          <span>Show seconds in time display</span>
-        </label>
+      <!-- About -->
+      <div class="section">
+        <h2>About</h2>
+        <div class="info-box">
+          <p><strong>BrowserClocks v1.0.1</strong></p>
+          <p>Track time across multiple timezones</p>
+          <p>Customizable clocks with automatic DST</p>
+        </div>
       </div>
 
-      <div class="setting-item">
-        <label class="checkbox-label">
-          <input type="checkbox" id="showTimezone">
-          <span>Show timezone abbreviation</span>
-        </label>
-      </div>
-
-      <div class="setting-item">
-        <label for="timeSize">Toolbar Time Size: <span id="timeSizeValue">14</span>px</label>
-        <input type="range" id="timeSize" min="10" max="24" step="1" value="14" style="width: 100%; margin-top: 8px;">
-      </div>
-
-      <div class="setting-item">
-        <label for="popupFontSize">Popup Font Size: <span id="popupFontSizeValue">14</span>px</label>
-        <input type="range" id="popupFontSize" min="10" max="20" step="1" value="14" style="width: 100%; margin-top: 8px;">
-        <p style="font-size: 12px; color: #666; margin-top: 4px;">Adjust the base font size for the popup window</p>
-      </div>
-    </div>
-
-    <div class="section">
-      <h2>Appearance</h2>
-      
-      <div class="setting-item">
-        <label for="theme">Theme</label>
-        <select id="theme">
-          <option value="dark">Dark</option>
-          <option value="light">Light</option>
-          <option value="auto">Auto (System)</option>
-        </select>
-      </div>
-
-      <div class="setting-item">
-        <label for="fontFamily">Font Family</label>
-        <select id="fontFamily">
-          <option value="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif">System Default</option>
-          <optgroup label="Sans-Serif Fonts">
-            <option value="Arial, sans-serif">Arial</option>
-            <option value="Helvetica, Arial, sans-serif">Helvetica</option>
-            <option value="'Helvetica Neue', Helvetica, Arial, sans-serif">Helvetica Neue</option>
-            <option value="Verdana, sans-serif">Verdana</option>
-            <option value="Tahoma, sans-serif">Tahoma</option>
-            <option value="'Trebuchet MS', sans-serif">Trebuchet MS</option>
-            <option value="'Segoe UI', Tahoma, sans-serif">Segoe UI</option>
-            <option value="Roboto, sans-serif">Roboto</option>
-            <option value="'Open Sans', sans-serif">Open Sans</option>
-            <option value="'San Francisco', -apple-system, sans-serif">San Francisco (macOS)</option>
-          </optgroup>
-          <optgroup label="Serif Fonts">
-            <option value="Georgia, serif">Georgia</option>
-            <option value="'Times New Roman', Times, serif">Times New Roman</option>
-            <option value="Times, serif">Times</option>
-            <option value="'Palatino Linotype', 'Book Antiqua', Palatino, serif">Palatino</option>
-            <option value="Garamond, serif">Garamond</option>
-            <option value="'Bookman Old Style', serif">Bookman</option>
-          </optgroup>
-          <optgroup label="Monospace Fonts">
-            <option value="'Courier New', Courier, monospace">Courier New</option>
-            <option value="Monaco, 'Lucida Console', monospace">Monaco</option>
-            <option value="Consolas, monospace">Consolas</option>
-            <option value="'SF Mono', Monaco, monospace">SF Mono (macOS)</option>
-            <option value="Menlo, Monaco, monospace">Menlo</option>
-            <option value="'Source Code Pro', monospace">Source Code Pro</option>
-          </optgroup>
-          <optgroup label="Display Fonts">
-            <option value="Impact, Charcoal, sans-serif">Impact</option>
-            <option value="'Comic Sans MS', cursive">Comic Sans MS</option>
-            <option value="'Brush Script MT', cursive">Brush Script</option>
-            <option value="'Lucida Handwriting', cursive">Lucida Handwriting</option>
-            <option value="Papyrus, fantasy">Papyrus</option>
-          </optgroup>
-        </select>
-        <p style="font-size: 12px; color: #666; margin-top: 4px;">
-          Choose a font for the toolbar display
-        </p>
-      </div>
-    </div>
-
-    <div class="section">
-      <h2>About</h2>
-      <div class="info-box">
-        <p><strong>BrowserClocks v1.0.0</strong></p>
-        <p>A modern browser extension for tracking time across multiple timezones.</p>
-        <p>Features include customizable clocks, timezone search, and automatic DST handling.</p>
+      <!-- Blacklist - Full Width -->
+      <div class="section full-width">
+        <h2>Blocked Websites</h2>
+        <div class="setting-item">
+          <label>Toolbar won't appear on these domains</label>
+          <p class="setting-help">Add domains (e.g., "github.com", "mail.google.com")</p>
+          <div style="display: flex; gap: 8px; margin-top: 8px; margin-bottom: 10px;">
+            <input type="text" id="blacklistInput" placeholder="Enter domain..." style="flex: 1;">
+            <button type="button" id="addBlacklistBtn" class="btn btn-primary" style="padding: 8px 16px; flex: 0 0 auto;">Add</button>
+          </div>
+          <div id="blacklistItems" style="display: flex; flex-direction: column; gap: 4px; max-height: 150px; overflow-y: auto;">
+            <!-- Blacklist items will be added here -->
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="button-group">
-      <button id="saveBtn" class="btn btn-primary">Save Settings</button>
-      <button id="resetBtn" class="btn btn-secondary">Reset to Defaults</button>
+      <button id="saveBtn" class="btn btn-primary">💾 Save Settings</button>
+      <button id="resetBtn" class="btn btn-secondary">🔄 Reset to Defaults</button>
     </div>
 
     <div id="successMessage" class="success-message">
-      Settings saved successfully!
+      ✓ Settings saved successfully!
     </div>
   </div>
 
