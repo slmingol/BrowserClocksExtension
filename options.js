@@ -193,6 +193,24 @@ function addToBlacklist() {
     alert('This domain is already in the blacklist!');
     return;
   }
+  
+  // Add to blacklist and re-render
+  currentItems.push(domain);
+  renderBlacklist(currentItems);
+  
+  // Clear input
+  input.value = '';
+}
+
+// Remove domain from blacklist
+function removeFromBlacklist(domain) {
+  // Get current blacklist
+  const currentItems = Array.from(document.querySelectorAll('.blacklist-item'))
+    .map(item => item.dataset.domain)
+    .filter(item => item !== domain);
+  
+  // Re-render without the removed domain
+  renderBlacklist(currentItems);
 }
 
 // Setup blacklist event listeners
