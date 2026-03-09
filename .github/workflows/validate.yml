@@ -1,0 +1,82 @@
+name: Validate Extension
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Validate manifest.json
+        run: |
+          if ! jq empty manifest.json; then
+            echo "Invalid manifest.json"
+            exit 1
+          fi
+          echo "✓ manifest.json is valid JSON"
+      
+      - name: Check required files
+        run: |
+          required_files=(
+            "manifest.json"
+            "background.js"
+            "popup.html"
+            "popup.js"
+            "popup.css"
+            "options.html"
+            "options.js"
+            "toolbar.js"
+            "toolbar.css"
+          )
+          
+          for file in "${required_files[@]}"; do
+            if [ ! -f "$file" ]; then
+              echo "✗ Missing required file: $file"
+              exit 1
+            fi
+            echo "✓ Found $file"
+          done
+      
+      - name: Check for 128x128 icon
+        run: |
+          if [ ! -f "icons/icon128.png" ]; then
+            echo "✗ Missing required icon: icons/icon128.png"
+            exit 1
+          fi
+          echo "✓ Found required icon"
+      
+      - name: Test package creation
+        run: |
+          mkdir -p build
+          rsync -av --exclude='.git*' \
+                    --exclude='README.md' \
+                    --exclude='QUICKSTART.md' \
+                    --exclude='build' \
+                    --exclude='.github' \
+                    ./ build/
+          cd build
+          zip -r ../test-package.zip .
+          cd ..
+          
+          # Verify ZIP was created
+          if [ ! -f "test-package.zip" ]; then
+            echo "✗ Failed to create package"
+            exit 1
+          fi
+          
+          file_size=$(stat -f%z test-package.zip 2>/dev/null || stat -c%s test-package.zip)
+          echo "✓ Package created successfully (${file_size} bytes)"
+          
+      - name: Summary
+        run: |
+          echo "✓ All validation checks passed!"
+          VERSION=$(jq -r '.version' manifest.json)
+          NAME=$(jq -r '.name' manifest.json)
+          echo "Extension: $NAME v$VERSION"
