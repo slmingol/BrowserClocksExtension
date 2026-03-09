@@ -557,6 +557,70 @@ const TIMEZONES = [
   // UTC and GMT
   { city: 'UTC', timezone: 'UTC', country: 'Timezone Code', countryCode: '' },
   { city: 'GMT', timezone: 'GMT', country: 'Timezone Code', countryCode: '' },
+  
+  // Timezone Abbreviations (Short Codes)
+  // North America
+  { city: 'EST - Eastern Standard', timezone: 'America/New_York', country: 'Abbreviation', countryCode: '' },
+  { city: 'EDT - Eastern Daylight', timezone: 'America/New_York', country: 'Abbreviation', countryCode: '' },
+  { city: 'CST - Central Standard', timezone: 'America/Chicago', country: 'Abbreviation', countryCode: '' },
+  { city: 'CDT - Central Daylight', timezone: 'America/Chicago', country: 'Abbreviation', countryCode: '' },
+  { city: 'MST - Mountain Standard', timezone: 'America/Denver', country: 'Abbreviation', countryCode: '' },
+  { city: 'MDT - Mountain Daylight', timezone: 'America/Denver', country: 'Abbreviation', countryCode: '' },
+  { city: 'PST - Pacific Standard', timezone: 'America/Los_Angeles', country: 'Abbreviation', countryCode: '' },
+  { city: 'PDT - Pacific Daylight', timezone: 'America/Los_Angeles', country: 'Abbreviation', countryCode: '' },
+  { city: 'AKST - Alaska Standard', timezone: 'America/Anchorage', country: 'Abbreviation', countryCode: '' },
+  { city: 'AKDT - Alaska Daylight', timezone: 'America/Anchorage', country: 'Abbreviation', countryCode: '' },
+  { city: 'HST - Hawaii Standard', timezone: 'Pacific/Honolulu', country: 'Abbreviation', countryCode: '' },
+  { city: 'AST - Atlantic Standard', timezone: 'America/Halifax', country: 'Abbreviation', countryCode: '' },
+  { city: 'ADT - Atlantic Daylight', timezone: 'America/Halifax', country: 'Abbreviation', countryCode: '' },
+  
+  // Europe
+  { city: 'WET - Western European', timezone: 'Europe/Lisbon', country: 'Abbreviation', countryCode: '' },
+  { city: 'WEST - Western European Summer', timezone: 'Europe/Lisbon', country: 'Abbreviation', countryCode: '' },
+  { city: 'CET - Central European', timezone: 'Europe/Paris', country: 'Abbreviation', countryCode: '' },
+  { city: 'CEST - Central European Summer', timezone: 'Europe/Paris', country: 'Abbreviation', countryCode: '' },
+  { city: 'EET - Eastern European', timezone: 'Europe/Athens', country: 'Abbreviation', countryCode: '' },
+  { city: 'EEST - Eastern European Summer', timezone: 'Europe/Athens', country: 'Abbreviation', countryCode: '' },
+  { city: 'BST - British Summer', timezone: 'Europe/London', country: 'Abbreviation', countryCode: '' },
+  { city: 'IST - Irish Standard', timezone: 'Europe/Dublin', country: 'Abbreviation', countryCode: '' },
+  { city: 'MSK - Moscow', timezone: 'Europe/Moscow', country: 'Abbreviation', countryCode: '' },
+  
+  // Asia
+  { city: 'IST - India Standard', timezone: 'Asia/Kolkata', country: 'Abbreviation', countryCode: '' },
+  { city: 'PKT - Pakistan', timezone: 'Asia/Karachi', country: 'Abbreviation', countryCode: '' },
+  { city: 'BST - Bangladesh Standard', timezone: 'Asia/Dhaka', country: 'Abbreviation', countryCode: '' },
+  { city: 'ICT - Indochina', timezone: 'Asia/Bangkok', country: 'Abbreviation', countryCode: '' },
+  { city: 'SGT - Singapore', timezone: 'Asia/Singapore', country: 'Abbreviation', countryCode: '' },
+  { city: 'HKT - Hong Kong', timezone: 'Asia/Hong_Kong', country: 'Abbreviation', countryCode: '' },
+  { city: 'CST - China Standard', timezone: 'Asia/Shanghai', country: 'Abbreviation', countryCode: '' },
+  { city: 'JST - Japan Standard', timezone: 'Asia/Tokyo', country: 'Abbreviation', countryCode: '' },
+  { city: 'KST - Korea Standard', timezone: 'Asia/Seoul', country: 'Abbreviation', countryCode: '' },
+  { city: 'PHT - Philippine', timezone: 'Asia/Manila', country: 'Abbreviation', countryCode: '' },
+  { city: 'WIB - Western Indonesian', timezone: 'Asia/Jakarta', country: 'Abbreviation', countryCode: '' },
+  { city: 'GST - Gulf Standard', timezone: 'Asia/Dubai', country: 'Abbreviation', countryCode: '' },
+  { city: 'IRST - Iran Standard', timezone: 'Asia/Tehran', country: 'Abbreviation', countryCode: '' },
+  
+  // Australia & Pacific
+  { city: 'AEST - Australian Eastern Standard', timezone: 'Australia/Sydney', country: 'Abbreviation', countryCode: '' },
+  { city: 'AEDT - Australian Eastern Daylight', timezone: 'Australia/Sydney', country: 'Abbreviation', countryCode: '' },
+  { city: 'ACST - Australian Central Standard', timezone: 'Australia/Adelaide', country: 'Abbreviation', countryCode: '' },
+  { city: 'ACDT - Australian Central Daylight', timezone: 'Australia/Adelaide', country: 'Abbreviation', countryCode: '' },
+  { city: 'AWST - Australian Western Standard', timezone: 'Australia/Perth', country: 'Abbreviation', countryCode: '' },
+  { city: 'NZST - New Zealand Standard', timezone: 'Pacific/Auckland', country: 'Abbreviation', countryCode: '' },
+  { city: 'NZDT - New Zealand Daylight', timezone: 'Pacific/Auckland', country: 'Abbreviation', countryCode: '' },
+  
+  // South America
+  { city: 'ART - Argentina', timezone: 'America/Buenos_Aires', country: 'Abbreviation', countryCode: '' },
+  { city: 'BRT - Brasilia', timezone: 'America/Sao_Paulo', country: 'Abbreviation', countryCode: '' },
+  { city: 'CLT - Chile Standard', timezone: 'America/Santiago', country: 'Abbreviation', countryCode: '' },
+  { city: 'PET - Peru', timezone: 'America/Lima', country: 'Abbreviation', countryCode: '' },
+  { city: 'COT - Colombia', timezone: 'America/Bogota', country: 'Abbreviation', countryCode: '' },
+  
+  // Africa
+  { city: 'EAT - East Africa', timezone: 'Africa/Nairobi', country: 'Abbreviation', countryCode: '' },
+  { city: 'CAT - Central Africa', timezone: 'Africa/Johannesburg', country: 'Abbreviation', countryCode: '' },
+  { city: 'WAT - West Africa', timezone: 'Africa/Lagos', country: 'Abbreviation', countryCode: '' },
+  { city: 'SAST - South Africa Standard', timezone: 'Africa/Johannesburg', country: 'Abbreviation', countryCode: '' },
 ];
 
 let clocks = [];
