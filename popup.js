@@ -758,6 +758,7 @@ const TIMEZONES = [
 
 let clocks = [];
 let updateInterval;
+let settings = {};
 
 // Convert country code to flag emoji
 function getFlagEmoji(countryCode) {
@@ -772,6 +773,7 @@ function getFlagEmoji(countryCode) {
 // Initialize
 document.addEventListener('DOMContentLoaded', async () => {
   await loadClocks();
+  await applyPopupSettings();
   renderClocks();
   startUpdating();
   
@@ -806,6 +808,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   
   // Populate timezone list
   renderTimezoneList(TIMEZONES);
+  
+  // Listen for settings changes
+  chrome.storage.onChanged.addListener((changes, namespace) => {
+    if (namespace === 'sync' && changes.settings) {
+      applyPopupSettings();
+      updateClockTimes(); // Update clock display immediately when settings change
+    }
+  });
 });
 
 // Load clocks from storage
@@ -818,9 +828,113 @@ async function loadClocks() {
   ];
 }
 
+// Apply popup settings (font size, etc.)
+async function applyPopupSettings() {
+  const result = await chrome.storage.sync.get(['settings']);
+  settings = result.settings || {};
+  const fontSize = settings.popupFontSize || 14;
+  
+  // Apply font size to body
+  document.body.style.fontSize = `${fontSize}px`;
+}
+
 // Save clocks to storage
 async function saveClocks() {
   await chrome.storage.sync.set({ clocks });
+}
+
+// Drag and drop functionality
+let draggedIndex = null;
+
+function setupDragAndDrop() {
+  const clockItems = document.querySelectorAll('.clock-item');
+  
+  clockItems.forEach((item, index) => {
+    item.addEventListener('dragstart', handleDragStart);
+    item.addEventListener('dragover', handleDragOver);
+    item.addEventListener('drop', handleDrop);
+    item.addEventListener('dragenter', handleDragEnter);
+    item.addEventListener('dragleave', handleDragLeave);
+    item.addEventListener('dragend', handleDragEnd);
+  });
+}
+
+function handleDragStart(e) {
+  draggedIndex = parseInt(e.currentTarget.dataset.index);
+  e.currentTarget.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/html', e.currentTarget.innerHTML);
+}
+
+function handleDragOver(e) {
+  if (e.preventDefault) {
+    e.preventDefault();
+  }
+  e.dataTransfer.dropEffect = 'move';
+  return false;
+}
+
+function handleDragEnter(e) {
+  const target = e.currentTarget;
+  if (!target.classList.contains('dragging')) {
+    target.classList.add('drag-over');
+  }
+}
+
+function handleDragLeave(e) {
+  e.currentTarget.classList.remove('drag-over');
+}
+
+async function handleDrop(e) {
+  if (e.stopPropagation) {
+    e.stopPropagation();
+  }
+  e.preventDefault();
+  
+  const dropIndex = parseInt(e.currentTarget.dataset.index);
+  
+  if (draggedIndex !== null && draggedIndex !== dropIndex) {
+    // Reorder the clocks array
+    const draggedClock = clocks[draggedIndex];
+    clocks.splice(draggedIndex, 1);
+    clocks.splice(dropIndex, 0, draggedClock);
+    
+    // Save and re-render
+    await saveClocks();
+    renderClocks();
+    
+    // Force immediate update in all open tabs (don't wait for storage sync)
+    notifyToolbarUpdate();
+  }
+  
+  return false;
+}
+
+// Notify all tabs to update their toolbars immediately
+async function notifyToolbarUpdate() {
+  try {
+    const tabs = await chrome.tabs.query({});
+    for (const tab of tabs) {
+      try {
+        await chrome.tabs.sendMessage(tab.id, { action: 'updateClocks', clocks: clocks });
+      } catch (err) {
+        // Tab may not have content script, ignore
+      }
+    }
+  } catch (err) {
+    console.error('Error notifying toolbar:', err);
+  }
+}
+
+function handleDragEnd(e) {
+  e.currentTarget.classList.remove('dragging');
+  
+  // Remove all drag-over classes
+  document.querySelectorAll('.clock-item').forEach(item => {
+    item.classList.remove('drag-over');
+  });
+  
+  draggedIndex = null;
 }
 
 // Render all clocks
@@ -849,6 +963,9 @@ function renderClocks() {
   document.querySelectorAll('.edit-btn').forEach((btn, index) => {
     btn.addEventListener('click', () => openEditModal(index));
   });
+  
+  // Add drag and drop event listeners
+  setupDragAndDrop();
 }
 
 // Create clock HTML element
@@ -857,7 +974,8 @@ function createClockElement(clock, time, index) {
   const displayName = clock.alias || clock.city;
   
   return `
-    <div class="clock-item" data-index="${index}">
+    <div class="clock-item" data-index="${index}" draggable="true">
+      <div class="drag-handle" title="Drag to reorder">⋮⋮</div>
       <div class="clock-info">
         <div class="clock-city">
           ${flag ? `<span class="flag-emoji">${flag}</span>` : ''}
@@ -881,13 +999,20 @@ function createClockElement(clock, time, index) {
 function getTimeForTimezone(timezone) {
   const now = new Date();
   
-  const timeFormatter = new Intl.DateTimeFormat('en-US', {
+  // Build time formatter options based on settings
+  const timeOptions = {
     timeZone: timezone,
     hour: '2-digit',
     minute: '2-digit',
-    second: '2-digit',
     hour12: true
-  });
+  };
+  
+  // Only include seconds if enabled in settings
+  if (settings.showSeconds !== false) {
+    timeOptions.second = '2-digit';
+  }
+  
+  const timeFormatter = new Intl.DateTimeFormat('en-US', timeOptions);
   
   const dateFormatter = new Intl.DateTimeFormat('en-US', {
     timeZone: timezone,
@@ -928,6 +1053,7 @@ async function deleteClock(index) {
   clocks.splice(index, 1);
   await saveClocks();
   renderClocks();
+  notifyToolbarUpdate();
 }
 
 // Add a clock
@@ -942,6 +1068,7 @@ async function addClock(timezone) {
   await saveClocks();
   renderClocks();
   closeModal();
+  notifyToolbarUpdate();
 }
 
 // Open add timezone modal
@@ -996,11 +1123,8 @@ async function saveAlias(index) {
   renderClocks();
   closeEditModal();
   
-  // Notify toolbar to update
-  const tabs = await chrome.tabs.query({});
-  tabs.forEach(tab => {
-    chrome.tabs.sendMessage(tab.id, { action: 'updateClocks' }).catch(() => {});
-  });
+  // Notify toolbar to update immediately
+  notifyToolbarUpdate();
 }
 
 // Render timezone list

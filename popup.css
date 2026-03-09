@@ -8,20 +8,20 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   background: #1a1a1a;
   color: #e0e0e0;
-  min-width: 352px;
-  max-width: 440px;
+  min-width: 387px;
+  max-width: 484px;
 }
 
 .container {
-  padding: 16px;
+  padding: 8px;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
-  padding-bottom: 12px;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
   border-bottom: 2px solid #333;
 }
 
@@ -36,7 +36,7 @@ body {
   border: none;
   font-size: 20px;
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 2px 4px;
   border-radius: 4px;
   transition: background 0.2s;
 }
@@ -48,24 +48,50 @@ body {
 .clocks-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 16px;
+  gap: 6px;
+  margin-bottom: 8px;
   max-height: 400px;
   overflow-y: auto;
 }
 
 .clock-item {
   background: #2a2a2a;
-  border-radius: 8px;
-  padding: 12px;
+  border-radius: 4px;
+  padding: 6px 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  cursor: move;
 }
 
 .clock-item:hover {
   background: #333;
+}
+
+.clock-item.dragging {
+  opacity: 0.5;
+  transform: scale(0.95);
+}
+
+.clock-item.drag-over {
+  border: 2px dashed #ff9500;
+  background: #333;
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(255, 149, 0, 0.3);
+}
+
+.drag-handle {
+  color: #666;
+  font-size: 16px;
+  cursor: grab;
+  padding: 0 4px 0 0;
+  user-select: none;
+  line-height: 1;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
 }
 
 .clock-info {
@@ -76,7 +102,7 @@ body {
   font-size: 14px;
   font-weight: 600;
   color: #fff;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .clock-timezone {
@@ -95,13 +121,13 @@ body {
 .clock-date {
   font-size: 10px;
   color: #888;
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
 .clock-actions {
   display: flex;
   gap: 4px;
-  margin-left: 5px;
+  margin-left: 3px;
 }
 
 .edit-btn {
@@ -110,7 +136,7 @@ body {
   color: #4da6ff;
   font-size: 14px;
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 2px 6px;
   border-radius: 4px;
   transition: background 0.2s;
 }
@@ -126,7 +152,7 @@ body {
   color: #ff4444;
   font-size: 16px;
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 2px 6px;
   border-radius: 4px;
   transition: background 0.2s;
 }
@@ -138,14 +164,14 @@ body {
 
 .flag-emoji {
   font-size: 18px;
-  margin-right: 6px;
+  margin-right: 3px;
   display: inline-block;
   vertical-align: middle;
 }
 
 .footer {
   border-top: 1px solid #333;
-  padding-top: 12px;
+  padding-top: 8px;
 }
 
 .add-btn {
@@ -153,8 +179,8 @@ body {
   background: #ff9500;
   color: white;
   border: none;
-  padding: 10px;
-  border-radius: 6px;
+  padding: 8px;
+  border-radius: 4px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -277,12 +303,12 @@ body {
 
 .empty-state {
   text-align: center;
-  padding: 40px 20px;
+  padding: 20px 10px;
   color: #666;
 }
 
 .empty-state p {
-  margin-bottom: 8px;
+  margin-bottom: 4px;
 }
 
 /* Scrollbar Styles */

@@ -11,6 +11,7 @@ const DEFAULT_SETTINGS = {
   showTimezone: true,
   theme: 'dark',
   timeSize: 14, // Font size for time in toolbar (10-24px)
+  popupFontSize: 14, // Font size for popup (10-20px)
   toolbarHeight: 32, // Height of toolbar for top/bottom positions (24-80px)
   showAppName: true, // Show "BrowserClocks" name in toolbar
   fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif' // Font family for toolbar
@@ -33,12 +34,37 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
   
+  // Popup font size slider listener
+  const popupFontSizeSlider = document.getElementById('popupFontSize');
+  const popupFontSizeValue = document.getElementById('popupFontSizeValue');
+  if (popupFontSizeSlider && popupFontSizeValue) {
+    popupFontSizeSlider.addEventListener('input', (e) => {
+      popupFontSizeValue.textContent = e.target.value;
+    });
+  }
+  
   // Toolbar height slider listener
   const toolbarHeightSlider = document.getElementById('toolbarHeight');
   const toolbarHeightValue = document.getElementById('toolbarHeightValue');
   if (toolbarHeightSlider && toolbarHeightValue) {
     toolbarHeightSlider.addEventListener('input', (e) => {
       toolbarHeightValue.textContent = e.target.value;
+    });
+  }
+  
+  // Blacklist event listeners
+  const addBtn = document.getElementById('addBlacklistBtn');
+  const input = document.getElementById('blacklistInput');
+  
+  if (addBtn) {
+    addBtn.addEventListener('click', addToBlacklist);
+  }
+  
+  if (input) {
+    input.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        addToBlacklist();
+      }
     });
   }
 });
@@ -62,6 +88,10 @@ async function loadSettings() {
   const timeSize = settings.timeSize || 14;
   document.getElementById('timeSize').value = timeSize;
   document.getElementById('timeSizeValue').textContent = timeSize;
+  
+  const popupFontSize = settings.popupFontSize || 14;
+  document.getElementById('popupFontSize').value = popupFontSize;
+  document.getElementById('popupFontSizeValue').textContent = popupFontSize;
   
   const toolbarHeight = settings.toolbarHeight || 32;
   document.getElementById('toolbarHeight').value = toolbarHeight;
@@ -94,6 +124,7 @@ async function saveSettings() {
     showTimezone: document.getElementById('showTimezone').checked,
     theme: document.getElementById('theme').value,
     timeSize: parseInt(document.getElementById('timeSize').value),
+    popupFontSize: parseInt(document.getElementById('popupFontSize').value),
     toolbarHeight: parseInt(document.getElementById('toolbarHeight').value),
     fontFamily: document.getElementById('fontFamily').value.trim() || DEFAULT_SETTINGS.fontFamily
   };
@@ -162,22 +193,6 @@ function addToBlacklist() {
     alert('This domain is already in the blacklist!');
     return;
   }
-  
-  // Add to list
-  currentItems.push(domain);
-  renderBlacklist(currentItems);
-  
-  // Clear input
-  input.value = '';
-}
-
-// Remove domain from blacklist
-function removeFromBlacklist(domain) {
-  const currentItems = Array.from(document.querySelectorAll('.blacklist-item'))
-    .map(item => item.dataset.domain)
-    .filter(d => d !== domain);
-  
-  renderBlacklist(currentItems);
 }
 
 // Setup blacklist event listeners

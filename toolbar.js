@@ -70,10 +70,6 @@
     toolbar.id = 'browserclocks-toolbar';
     toolbar.className = `position-${settings.toolbarPosition} align-${settings.toolbarAlign || 'left'}`;
     
-    if (settings.toolbarMinimized) {
-      toolbar.classList.add('minimized');
-    }
-    
     // Apply height for top/bottom positions
     applyToolbarHeight();
     
@@ -83,26 +79,21 @@
     }
     
     const logoHTML = settings.showAppName !== false ? `
-      <div class="bc-logo" title="Click to expand/minimize">
+      <div class="bc-logo">
         🕐 <span>BrowserClocks</span>
       </div>
     ` : '';
     
     toolbar.innerHTML = `
       ${logoHTML}
-      <div class="bc-clocks"></div>
       <div class="bc-controls">
-        <button class="bc-btn bc-toggle" title="Minimize/Expand">−</button>
-        <button class="bc-btn" title="Hide toolbar">✕</button>
+        <button class="bc-btn bc-close" title="Hide toolbar">✕</button>
       </div>
+      <div class="bc-clocks"></div>
     `;
     
     // Add event listeners
-    if (settings.showAppName !== false) {
-      toolbar.querySelector('.bc-logo').addEventListener('click', toggleMinimize);
-    }
-    toolbar.querySelector('.bc-toggle').addEventListener('click', toggleMinimize);
-    toolbar.querySelector('.bc-controls .bc-btn:last-child').addEventListener('click', hideToolbar);
+    toolbar.querySelector('.bc-controls .bc-btn').addEventListener('click', hideToolbar);
     
     document.body.appendChild(toolbar);
     updateClocks();
@@ -213,7 +204,7 @@
     // Only apply height to top/bottom positions
     if (position === 'top' || position === 'bottom') {
       toolbar.style.height = `${height}px`;
-      toolbar.style.padding = '0 16px';
+      toolbar.style.padding = '0 4px';
     } else {
       // Reset for left/right positions
       toolbar.style.height = '';
@@ -286,9 +277,6 @@
       
       // Update position
       toolbar.className = `position-${settings.toolbarPosition} align-${settings.toolbarAlign || 'left'}`;
-      if (settings.toolbarMinimized) {
-        toolbar.classList.add('minimized');
-      }
       
       // Update height
       applyToolbarHeight();
@@ -296,12 +284,6 @@
       // Update font family
       if (settings.fontFamily) {
         toolbar.style.fontFamily = settings.fontFamily;
-      }
-      
-      // Update toggle button
-      const toggleBtn = toolbar.querySelector('.bc-toggle');
-      if (toggleBtn) {
-        toggleBtn.textContent = settings.toolbarMinimized ? '+' : '−';
       }
       
       updateClocks();
@@ -316,10 +298,17 @@
   // Listen for messages from popup
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === 'updateClocks') {
-      chrome.storage.sync.get(['clocks'], (result) => {
-        clocks = result.clocks || [];
+      // If clocks are provided in the message, use them immediately
+      if (message.clocks) {
+        clocks = message.clocks;
         updateClocks();
-      });
+      } else {
+        // Otherwise fetch from storage
+        chrome.storage.sync.get(['clocks'], (result) => {
+          clocks = result.clocks || [];
+          updateClocks();
+        });
+      }
     }
   });
   
