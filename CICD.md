@@ -22,12 +22,28 @@ Runs when you create a git tag starting with `v` (e.g., `v1.0.0`).
 - Creates GitHub release with download
 - (Optional) Publishes to Chrome Web Store
 
-### 3. Bump Version (`bump-version.yml`)
-Manually triggered workflow to automatically increment version.
+### 3. Auto Version Bump (`auto-version.yml`)
+Automatically triggered on every push to `main`.
+
+**Actions:**
+- Analyzes commit messages using conventional commits
+- Auto-detects version bump type (patch/minor/major)
+- Updates manifest.json
+- Commits and pushes changes
+- Creates and pushes version tag
+- Triggers release workflow automatically
+
+**Supported Commit Patterns:**
+- `fix:` or `bugfix:` → **patch** bump (1.0.0 → 1.0.1)
+- `feat:` → **minor** bump (1.0.0 → 1.1.0)
+- `BREAKING CHANGE:` or `feat!:` → **major** bump (1.0.0 → 2.0.0)
+
+### 4. Manual Bump Version (`bump-version.yml`)
+Manually triggered workflow for explicit version control.
 
 **Actions:**
 - Reads current version from manifest.json
-- Bumps version (patch/minor/major)
+- Bumps version (patch/minor/major) based on your choice
 - Updates manifest.json
 - Commits and pushes changes
 - Creates and pushes version tag
@@ -35,7 +51,41 @@ Manually triggered workflow to automatically increment version.
 
 ## How to Create a Release
 
-### Automated Version Bump (Recommended)
+### Automatic (Easiest - Recommended)
+Just commit and push with conventional commit messages:
+
+```bash
+# For bug fixes (patch: 1.0.0 → 1.0.1)
+git commit -m "fix: correct timezone calculation bug"
+
+# For new features (minor: 1.0.0 → 1.1.0)
+git commit -m "feat: add support for custom time formats"
+
+# For breaking changes (major: 1.0.0 → 2.0.0)
+git commit -m "feat!: redesign settings interface"
+# or
+git commit -m "feat: new API
+
+BREAKING CHANGE: removed old API endpoints"
+
+git push
+```
+
+The workflow will automatically:
+1. ✅ Detect the version bump type from commit message
+2. ✅ Bump version in manifest.json
+3. ✅ Commit and push the change
+4. ✅ Create and push the git tag
+5. ✅ Trigger the release workflow
+6. ✅ Build and publish the extension
+
+**Conventional Commit Format:**
+- `fix:` - Bug fixes → patch bump
+- `feat:` - New features → minor bump  
+- `BREAKING CHANGE:` or `!` - Breaking changes → major bump
+- Add `[skip-version]` to commit message to skip auto-versioning
+
+### Manual Workflow (Alternative)
 1. Go to your repository on GitHub
 2. Click **Actions** tab
 3. Select **Bump Version** workflow
@@ -138,8 +188,50 @@ In `.github/workflows/release.yml`, uncomment the "Publish to Chrome Web Store" 
 
 ## Version Management
 
-### Automated (Recommended)
-Use the **Bump Version** workflow in GitHub Actions:
+### Automatic (Recommended)
+Use **conventional commit messages** and versioning happens automatically:
+
+```bash
+# Your normal workflow - just use conventional commits
+git add .
+git commit -m "feat: add dark mode toggle"
+git push
+# ✅ Auto-bumps to next minor version and releases!
+```
+
+**Conventional Commit Examples:**
+```bash
+# Patch bumps (1.0.0 → 1.0.1)
+fix: correct flag emoji rendering
+bugfix: resolve timezone offset issue
+patch: update dependencies
+
+# Minor bumps (1.0.0 → 1.1.0)
+feat: add export/import functionality
+feat(toolbar): add minimize button
+
+# Major bumps (1.0.0 → 2.0.0)
+feat!: redesign settings interface
+feat: new API
+
+BREAKING CHANGE: removed legacy toolbar API
+```
+
+**Skip Auto-Versioning:**
+Add `[skip-version]` to your commit message:
+```bash
+git commit -m "docs: update README [skip-version]"
+```
+
+### Manual Workflow
+If you prefer to manage versions manually:
+
+**Option 1: GitHub UI**
+- Go to Actions → Bump Version → Run workflow
+- Select patch/minor/major
+- Done! The version is automatically updated everywhere
+
+**Option 1: GitHub UI**
 - Go to Actions → Bump Version → Run workflow
 - Select patch/minor/major
 - Done! The version is automatically updated everywhere
@@ -219,8 +311,87 @@ If automated publishing fails, you can always manually upload:
 5. Upload the ZIP file
 6. Submit for review
 
+## Conventional Commits Guide
+
+The auto-versioning system uses [Conventional Commits](https://www.conventionalcommits.org/) to determine version bumps.
+
+### Commit Message Format
+
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+### Types and Version Bumps
+
+| Type | Version Bump | Example |
+|------|-------------|---------|
+| `fix:` | Patch (1.0.0 → 1.0.1) | `fix: correct timezone offset` |
+| `bugfix:` | Patch | `bugfix: resolve drag-and-drop issue` |
+| `patch:` | Patch | `patch: update dependencies` |
+| `feat:` | Minor (1.0.0 → 1.1.0) | `feat: add airport code search` |
+| `feat!:` | Major (1.0.0 → 2.0.0) | `feat!: redesign options page` |
+| `BREAKING CHANGE:` | Major | See example below |
+
+### Examples
+
+**Patch Release (Bug Fix):**
+```bash
+git commit -m "fix: correct flag emoji display for certain countries"
+```
+
+**Minor Release (New Feature):**
+```bash
+git commit -m "feat: add ability to export/import clock settings"
+```
+
+**Minor with Scope:**
+```bash
+git commit -m "feat(toolbar): add compact mode toggle"
+```
+
+**Major Release (Breaking Change - Method 1):**
+```bash
+git commit -m "feat!: remove deprecated toolbar API"
+```
+
+**Major Release (Breaking Change - Method 2):**
+```bash
+git commit -m "feat: redesign settings architecture
+
+BREAKING CHANGE: settings structure has changed, users will need to reconfigure"
+```
+
+**Documentation (No Version Bump):**
+```bash
+git commit -m "docs: update installation instructions [skip-version]"
+```
+
+**Multiple Changes:**
+```bash
+# The highest priority change determines the bump
+# fix + feat = minor bump
+# fix + feat! = major bump
+```
+
+### Other Useful Types (No Auto-Bump)
+
+These won't trigger automatic versioning but are good for clarity:
+- `docs:` - Documentation changes
+- `style:` - Code style changes (formatting, etc.)
+- `refactor:` - Code refactoring
+- `test:` - Adding or updating tests
+- `chore:` - Maintenance tasks
+- `ci:` - CI/CD changes
+
+Add `[skip-version]` to any commit to prevent auto-versioning.
+
 ## Resources
 
 - [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole)
 - [Chrome Web Store Publish API](https://developer.chrome.com/docs/webstore/using_webstore_api/)
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
+- [Conventional Commits Specification](https://www.conventionalcommits.org/)

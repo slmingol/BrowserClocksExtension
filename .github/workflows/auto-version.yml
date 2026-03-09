@@ -1,0 +1,159 @@
+name: Auto Version Bump
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'README.md'
+      - 'QUICKSTART.md'
+      - 'CICD.md'
+      - '.github/**'
+
+jobs:
+  auto-bump:
+    runs-on: ubuntu-latest
+    
+    # Skip if commit is from github-actions bot (prevent infinite loop)
+    if: "!contains(github.event.head_commit.message, '[skip-version]') && github.event.head_commit.author.username != 'github-actions[bot]'"
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+      
+      - name: Get current version
+        id: current_version
+        run: |
+          CURRENT_VERSION=$(jq -r '.version' manifest.json)
+          echo "version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "Current version: $CURRENT_VERSION"
+      
+      - name: Analyze commits and determine version bump
+        id: analyze
+        run: |
+          # Get commit messages since last tag
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          
+          if [ -z "$LAST_TAG" ]; then
+            # No tags yet, get all commits
+            COMMITS=$(git log --pretty=format:"%s" main)
+          else
+            # Get commits since last tag
+            COMMITS=$(git log ${LAST_TAG}..HEAD --pretty=format:"%s")
+          fi
+          
+          echo "Analyzing commits:"
+          echo "$COMMITS"
+          
+          # Determine bump type based on conventional commits
+          BUMP_TYPE="none"
+          
+          # Check for breaking changes (major bump)
+          if echo "$COMMITS" | grep -qi "BREAKING CHANGE:\|^[a-z]*!:"; then
+            BUMP_TYPE="major"
+            echo "Found breaking changes"
+          # Check for features (minor bump)
+          elif echo "$COMMITS" | grep -qi "^feat:\|^feat("; then
+            BUMP_TYPE="minor"
+            echo "Found new features"
+          # Check for fixes (patch bump)
+          elif echo "$COMMITS" | grep -qi "^fix:\|^fix(\|^bugfix:\|^patch:"; then
+            BUMP_TYPE="patch"
+            echo "Found bug fixes"
+          fi
+          
+          echo "bump_type=$BUMP_TYPE" >> $GITHUB_OUTPUT
+          echo "Determined bump type: $BUMP_TYPE"
+      
+      - name: Bump version
+        id: bump
+        if: steps.analyze.outputs.bump_type != 'none'
+        run: |
+          CURRENT_VERSION="${{ steps.current_version.outputs.version }}"
+          BUMP_TYPE="${{ steps.analyze.outputs.bump_type }}"
+          
+          # Split version into parts
+          IFS='.' read -r -a version_parts <<< "$CURRENT_VERSION"
+          major="${version_parts[0]}"
+          minor="${version_parts[1]}"
+          patch="${version_parts[2]}"
+          
+          # Bump version based on type
+          case $BUMP_TYPE in
+            major)
+              major=$((major + 1))
+              minor=0
+              patch=0
+              ;;
+            minor)
+              minor=$((minor + 1))
+              patch=0
+              ;;
+            patch)
+              patch=$((patch + 1))
+              ;;
+          esac
+          
+          NEW_VERSION="${major}.${minor}.${patch}"
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "Bumped version: $CURRENT_VERSION → $NEW_VERSION ($BUMP_TYPE)"
+      
+      - name: Update manifest.json
+        if: steps.analyze.outputs.bump_type != 'none'
+        run: |
+          NEW_VERSION="${{ steps.bump.outputs.new_version }}"
+          jq --arg version "$NEW_VERSION" '.version = $version' manifest.json > manifest.json.tmp
+          mv manifest.json.tmp manifest.json
+          
+          echo "✅ Updated manifest.json to version $NEW_VERSION"
+      
+      - name: Commit and push version bump
+        if: steps.analyze.outputs.bump_type != 'none'
+        run: |
+          NEW_VERSION="${{ steps.bump.outputs.new_version }}"
+          
+          git add manifest.json
+          git commit -m "chore: bump version to v$NEW_VERSION [skip-version]"
+          git push origin main
+      
+      - name: Create and push tag
+        if: steps.analyze.outputs.bump_type != 'none'
+        run: |
+          NEW_VERSION="${{ steps.bump.outputs.new_version }}"
+          
+          git tag "v$NEW_VERSION"
+          git push origin "v$NEW_VERSION"
+          
+          echo "✅ Created tag v$NEW_VERSION"
+          echo "🚀 Release workflow will now build and publish"
+      
+      - name: Summary
+        if: steps.analyze.outputs.bump_type != 'none'
+        run: |
+          echo "## 🎉 Auto Version Bump" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Previous version:** ${{ steps.current_version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **New version:** ${{ steps.bump.outputs.new_version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Bump type:** ${{ steps.analyze.outputs.bump_type }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Automatically detected from commit messages" >> $GITHUB_STEP_SUMMARY
+          echo "🏷️ Tag \`v${{ steps.bump.outputs.new_version }}\` created" >> $GITHUB_STEP_SUMMARY
+          echo "🚀 Release workflow triggered" >> $GITHUB_STEP_SUMMARY
+      
+      - name: No version bump needed
+        if: steps.analyze.outputs.bump_type == 'none'
+        run: |
+          echo "ℹ️ No version bump needed - no conventional commits found" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Use conventional commit messages to trigger auto-versioning:" >> $GITHUB_STEP_SUMMARY
+          echo "- \`fix:\` or \`bugfix:\` → patch bump (1.0.0 → 1.0.1)" >> $GITHUB_STEP_SUMMARY
+          echo "- \`feat:\` → minor bump (1.0.0 → 1.1.0)" >> $GITHUB_STEP_SUMMARY
+          echo "- \`BREAKING CHANGE:\` or \`feat!:\` → major bump (1.0.0 → 2.0.0)" >> $GITHUB_STEP_SUMMARY
