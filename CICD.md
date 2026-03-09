@@ -22,30 +22,53 @@ Runs when you create a git tag starting with `v` (e.g., `v1.0.0`).
 - Creates GitHub release with download
 - (Optional) Publishes to Chrome Web Store
 
+### 3. Bump Version (`bump-version.yml`)
+Manually triggered workflow to automatically increment version.
+
+**Actions:**
+- Reads current version from manifest.json
+- Bumps version (patch/minor/major)
+- Updates manifest.json
+- Commits and pushes changes
+- Creates and pushes version tag
+- Triggers release workflow automatically
+
 ## How to Create a Release
+
+### Automated Version Bump (Recommended)
+1. Go to your repository on GitHub
+2. Click **Actions** tab
+3. Select **Bump Version** workflow
+4. Click **Run workflow**
+5. Choose version bump type:
+   - **patch**: 1.0.0 → 1.0.1 (bug fixes)
+   - **minor**: 1.0.0 → 1.1.0 (new features)
+   - **major**: 1.0.0 → 2.0.0 (breaking changes)
+6. Click **Run workflow**
+
+The workflow will automatically:
+1. ✅ Bump version in manifest.json
+2. ✅ Commit and push the change
+3. ✅ Create and push the git tag
+4. ✅ Trigger the release workflow
+5. ✅ Build and publish the extension
 
 ### Manual Release
 ```bash
-# Make sure all changes are committed
-git add -A
-git commit -m "Release v1.0.0"
+# Update manifest.json version manually, then:
+git add manifest.json
+git commit -m "Bump version to v1.0.1"
 git push
 
 # Create and push a tag
-git tag v1.0.0
-git push origin v1.0.0
+git tag v1.0.1
+git push origin v1.0.1
 ```
 
 GitHub Actions will automatically:
 1. Build the extension ZIP
 2. Create a GitHub release
 3. Attach the ZIP file to the release
-
-### Manual Build (without release)
-You can also trigger a build manually via GitHub Actions UI:
-1. Go to "Actions" tab
-2. Select "Build and Release Extension"
-3. Click "Run workflow"
 
 ## Setting Up Chrome Web Store Auto-Publishing
 
@@ -115,7 +138,14 @@ In `.github/workflows/release.yml`, uncomment the "Publish to Chrome Web Store" 
 
 ## Version Management
 
-Update the version in `manifest.json`:
+### Automated (Recommended)
+Use the **Bump Version** workflow in GitHub Actions:
+- Go to Actions → Bump Version → Run workflow
+- Select patch/minor/major
+- Done! The version is automatically updated everywhere
+
+### Manual
+If you prefer to manage versions manually, edit `manifest.json`:
 
 ```json
 {
@@ -123,6 +153,13 @@ Update the version in `manifest.json`:
   ...
 }
 ```
+
+Then commit, tag, and push as shown in the Manual Release section above.
+
+### Versioning Strategy
+- **Patch** (1.0.0 → 1.0.1): Bug fixes, small tweaks
+- **Minor** (1.0.0 → 1.1.0): New features, additions
+- **Major** (1.0.0 → 2.0.0): Breaking changes, major rewrites
 
 The CI/CD system automatically reads this version for:
 - Package filename
