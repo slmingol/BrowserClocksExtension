@@ -215,7 +215,7 @@
 /* Controls */
 #browserclocks-toolbar .bc-controls {
   display: flex;
-  gap: 8px;
+  gap: 2px;
   align-items: center;
 }
 
@@ -224,7 +224,7 @@
   border: none;
   color: #333;
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 2px 6px;
   border-radius: 4px;
   font-size: 12px;
   transition: all 0.2s;
@@ -238,7 +238,7 @@
 
 #browserclocks-toolbar .bc-toggle {
   font-size: 16px;
-  padding: 4px 6px;
+  padding: 2px 4px;
 }
 
 /* Minimize/Expand states */
