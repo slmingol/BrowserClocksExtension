@@ -242,9 +242,8 @@
       }, 300);
     }
     
-    // Update settings
-    settings.toolbarEnabled = false;
-    chrome.storage.sync.set({ settings });
+    // Note: Don't disable toolbarEnabled - just hide temporarily
+    // The toolbar will reappear on next page load/refresh
   }
   
   // Update toolbar settings (position, etc.)
