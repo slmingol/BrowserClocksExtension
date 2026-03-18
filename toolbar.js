@@ -317,11 +317,4 @@
   } else {
     init();
   }
-  
-  // Cleanup on page unload
-  window.addEventListener('unload', () => {
-    if (updateInterval) {
-      clearInterval(updateInterval);
-    }
-  });
 })();
