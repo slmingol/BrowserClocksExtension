@@ -72,7 +72,7 @@ chmod +x build.sh
 
 This creates `dist/BrowserClocks-v{VERSION}.zip` ready for store submission.
 
-For complete publishing instructions, see [PUBLISHING.md](PUBLISHING.md).
+For complete publishing instructions, see [docs/PUBLISHING.md](docs/PUBLISHING.md).
 
 ## Usage
 
@@ -179,7 +179,8 @@ Potential features for future versions:
 - [CI/CD Setup](docs/CICD.md) - Automated building, versioning, and releasing
 
 ### Developer & Publishing
-- [PUBLISHING.md](PUBLISHING.md) - Complete guide to publishing on browser stores
+- [docs/PUBLISHING.md](docs/PUBLISHING.md) - Complete guide to publishing on browser stores
+- [docs/PRE_PUBLISH_CHECKLIST.md](docs/PRE_PUBLISH_CHECKLIST.md) - Pre-submission validation checklist
 - [PRIVACY.md](PRIVACY.md) - Privacy policy and data handling
 - [CHANGELOG.md](CHANGELOG.md) - Version history and changes
 - [LICENSE](LICENSE) - MIT License details
