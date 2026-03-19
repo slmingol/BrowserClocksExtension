@@ -33,9 +33,19 @@ A modern, open-source browser extension for tracking time across multiple timezo
 
 ## Installation
 
+### From Chrome Web Store (Coming Soon)
+
+🚀 **Publishing in Progress** - This extension will soon be available on the Chrome Web Store.
+
+For now, install manually following the development instructions below.
+
 ### For Development
 
 1. **Clone or download this repository**
+   ```bash
+   git clone https://github.com/slmingol/BrowserClocksExtension.git
+   cd BrowserClocksExtension
+   ```
 
 2. **Load in Chrome/Edge:**
    - Open `chrome://extensions/`
@@ -48,14 +58,21 @@ A modern, open-source browser extension for tracking time across multiple timezo
    - Click "Load Temporary Add-on"
    - Select the `manifest.json` file
 
-### Creating Icons
+### Building for Distribution
 
-Before publishing, you'll need to create icons. Create a `icons` folder with:
-- `icon16.png` (16x16px)
-- `icon48.png` (48x48px)
-- `icon128.png` (128x128px)
+To create a distribution package for submission to browser stores:
 
-You can use any design tool or icon generator. Suggested design: Orange fox clock face.
+```bash
+# Make the build script executable (first time only)
+chmod +x build.sh
+
+# Build the extension package
+./build.sh
+```
+
+This creates `dist/BrowserClocks-v{VERSION}.zip` ready for store submission.
+
+For complete publishing instructions, see [PUBLISHING.md](PUBLISHING.md).
 
 ## Usage
 
@@ -157,8 +174,16 @@ Potential features for future versions:
 
 ## Documentation
 
+### User Guides
 - [Quick Start Guide](docs/QUICKSTART.md) - Get started quickly
 - [CI/CD Setup](docs/CICD.md) - Automated building, versioning, and releasing
+
+### Developer & Publishing
+- [PUBLISHING.md](PUBLISHING.md) - Complete guide to publishing on browser stores
+- [PRIVACY.md](PRIVACY.md) - Privacy policy and data handling
+- [CHANGELOG.md](CHANGELOG.md) - Version history and changes
+- [LICENSE](LICENSE) - MIT License details
+- [Store Listing Details](docs/STORE_LISTING.md) - Chrome Web Store listing information
 
 ## Contributing
 
