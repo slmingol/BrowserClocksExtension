@@ -33,9 +33,9 @@ A modern, open-source browser extension for tracking time across multiple timezo
 
 ## Installation
 
-### From Chrome Web Store (Coming Soon)
+### From Chrome Web Store
 
-🚀 **Publishing in Progress** - This extension will soon be available on the Chrome Web Store.
+🚀 **Submitted for Review** - This extension has been submitted to the Chrome Web Store and is awaiting approval (typically 1-3 business days).
 
 For now, install manually following the development instructions below.
 
