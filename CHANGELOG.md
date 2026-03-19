@@ -7,11 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.4] - 2026-03-18
+
 ### Added
-- Preparation for Chrome Web Store publishing
-- Privacy policy documentation
+- Complete Chrome Web Store publishing preparation
 - LICENSE file (MIT)
-- Publishing documentation
+- PRIVACY.md - Comprehensive privacy policy
+- CHANGELOG.md - Version history tracking
+- docs/PUBLISHING.md - Complete publishing guide
+- docs/PRE_PUBLISH_CHECKLIST.md - Pre-submission checklist
+- docs/STORE_LISTING.md - Chrome Web Store listing details
+- build.sh - Distribution package builder
+- Organized documentation structure
+
+### Changed
+- Moved publishing docs to docs/ folder
+- Updated README with publishing information
 
 ## [1.2.3] - 2026-03-18
 
