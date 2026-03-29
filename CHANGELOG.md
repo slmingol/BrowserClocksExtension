@@ -7,8 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Status
-- Submitted to Chrome Web Store for review (March 18, 2026)
+## [1.2.5] - 2026-03-29
+
+### Fixed
+- Removed unused `activeTab` permission from manifest.json (Chrome Web Store rejection fix)
+- Updated all documentation to reflect correct permissions
+
+### Changed
+- Extension uses only `storage` and `alarms` permissions
+- Content scripts handle toolbar injection via `<all_urls>` match pattern
 
 ## [1.2.4] - 2026-03-18
 

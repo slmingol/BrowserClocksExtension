@@ -150,11 +150,6 @@ The storage permission is required to save user preferences and configuration da
 The alarms permission is required to update the displayed time on all clocks at regular intervals. The extension sets recurring alarms to trigger updates every second (when displaying seconds) or every minute (when seconds are hidden) to ensure accurate, real-time timezone displays. This background timing mechanism is essential for the extension's core functionality of showing current time across multiple timezones. Without this permission, clocks would not update and would show stale time information. The alarms API is used exclusively for triggering clock display updates and does not access any user data or webpage content.
 ```
 
-**activeTab justification**
-```
-The activeTab permission is required to inject the optional persistent toolbar on webpages when the toolbar feature is enabled by the user. This permission allows the extension to insert the toolbar display code (toolbar.js) into the active tab only when the user has explicitly enabled the toolbar feature in settings. The permission is used solely for displaying the timezone toolbar overlay on pages. It does not read, access, or transmit any webpage content or user browsing data. Users can disable the toolbar feature at any time in settings, and can also blacklist specific websites where they don't want the toolbar to appear.
-```
-
 **Host permission justification (<all_urls>)**
 ```
 The host permission for all URLs (<all_urls>) is specified in the content_scripts section of the manifest and is required to display the optional persistent toolbar feature across all websites. This permission allows the extension to inject toolbar.js and toolbar.css into webpages when the user has enabled the toolbar feature. The toolbar is a visual overlay that shows timezone clocks on the webpage without interfering with page functionality. The content script only injects display elements and does not read, access, modify, or transmit any webpage content, user data, or browsing information. Users have full control: they can disable the toolbar entirely in settings, blacklist specific websites, minimize the toolbar, or hide it temporarily. The extension does not track browsing history or access sensitive page data.

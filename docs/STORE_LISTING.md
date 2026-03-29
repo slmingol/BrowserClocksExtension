@@ -118,9 +118,6 @@ Required to save user preferences, timezone selections, custom aliases, and sett
 **alarms:**
 Required to update clock displays in real-time at regular intervals.
 
-**activeTab:**
-Required to inject the persistent toolbar on active webpages when the toolbar feature is enabled.
-
 **Content Scripts (<all_urls>):**
 Required to display the persistent toolbar on all websites. Only injects toolbar display code - does not access webpage content.
 

@@ -51,10 +51,6 @@ BrowserClocks requests the following permissions:
 **Why**: To update clock displays accurately every second/minute.
 **Usage**: Sets timers for regular clock updates. No data is collected or transmitted.
 
-### `activeTab`
-**Why**: To inject the persistent toolbar on webpages when enabled.
-**Usage**: Only used to display the toolbar. No webpage content is read, accessed, or transmitted.
-
 ### Content Scripts (`<all_urls>`)
 **Why**: To display the persistent toolbar on all websites (optional feature).
 **Usage**: Injects only the toolbar display code. Does not access, read, or transmit webpage data.

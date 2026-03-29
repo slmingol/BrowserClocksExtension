@@ -113,8 +113,7 @@ Review `docs/STORE_LISTING.md` and prepare:
 - [x] **Permissions justified** - Explanations ready for:
   - `storage` - Local settings storage
   - `alarms` - Clock updates
-  - `activeTab` - Toolbar injection
-  - `<all_urls>` - Toolbar on all pages
+  - `<all_urls>` - Toolbar on all pages (via content scripts)
 
 ### Privacy Practices Questionnaire
 
