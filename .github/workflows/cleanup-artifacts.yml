@@ -36,6 +36,7 @@ jobs:
     steps:
       - name: Remove old artifacts
         uses: c-hive/gha-remove-artifacts@v1
+        continue-on-error: true
         with:
           age: '${{ github.event.inputs.days_old || 7 }} days'
           skip-recent: 3
