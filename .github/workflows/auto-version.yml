@@ -10,6 +10,9 @@ on:
       - 'CICD.md'
       - '.github/**'
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   auto-bump:
     runs-on: ubuntu-latest
