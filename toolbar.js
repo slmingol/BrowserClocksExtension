@@ -247,8 +247,11 @@
     return blacklist.some(entry => {
       if (!entry) return false;
       if (entry === 'file://') return protocol === 'file:';
-      if (entry.startsWith('file://')) return href.startsWith(entry);
-      if (entry.startsWith('http://') || entry.startsWith('https://')) return href.startsWith(entry);
+      if (entry.startsWith('file://') || entry.startsWith('http://') || entry.startsWith('https://')) {
+        // Wildcard: treat everything before * as a prefix to match
+        const pattern = entry.includes('*') ? entry.slice(0, entry.indexOf('*')) : entry;
+        return href.startsWith(pattern);
+      }
       return hostname === entry || hostname.endsWith('.' + entry);
     });
   }
