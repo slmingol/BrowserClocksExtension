@@ -20,7 +20,10 @@ const DEFAULT_SETTINGS = {
 // Load settings on page load
 document.addEventListener('DOMContentLoaded', async () => {
   await loadSettings();
-  
+
+  const version = chrome.runtime.getManifest().version;
+  document.getElementById('extensionVersion').textContent = `BrowserClocks v${version}`;
+
   // Event listeners
   document.getElementById('saveBtn').addEventListener('click', saveSettings);
   document.getElementById('resetBtn').addEventListener('click', resetSettings);
