@@ -31,15 +31,8 @@
       fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif'
     };
     
-    // Check if current domain is blacklisted
-    const currentDomain = window.location.hostname;
-    const isBlacklisted = settings.toolbarBlacklist?.some(domain => {
-      // Match exact domain or subdomain
-      return currentDomain === domain || currentDomain.endsWith('.' + domain);
-    });
-    
-    // Only create toolbar if enabled and not blacklisted
-    if (settings.toolbarEnabled && !isBlacklisted) {
+    // Only create toolbar if enabled and not blocked
+    if (settings.toolbarEnabled && !isBlocked(settings.toolbarBlacklist)) {
       createToolbar();
       startUpdating();
     }
@@ -246,14 +239,24 @@
     // The toolbar will reappear on next page load/refresh
   }
   
+  function isBlocked(blacklist) {
+    if (!blacklist || blacklist.length === 0) return false;
+    const href = window.location.href;
+    const hostname = window.location.hostname;
+    const protocol = window.location.protocol;
+    return blacklist.some(entry => {
+      if (!entry) return false;
+      if (entry === 'file://') return protocol === 'file:';
+      if (entry.startsWith('file://')) return href.startsWith(entry);
+      if (entry.startsWith('http://') || entry.startsWith('https://')) return href.startsWith(entry);
+      return hostname === entry || hostname.endsWith('.' + entry);
+    });
+  }
+
   // Update toolbar settings (position, etc.)
   function updateToolbarSettings() {
-    // Check if current domain is blacklisted
-    const currentDomain = window.location.hostname;
-    const isBlacklisted = settings.toolbarBlacklist?.some(domain => {
-      return currentDomain === domain || currentDomain.endsWith('.' + domain);
-    });
-    
+    const isBlacklisted = isBlocked(settings.toolbarBlacklist);
+
     if (!toolbar && settings.toolbarEnabled && !isBlacklisted) {
       createToolbar();
       startUpdating();

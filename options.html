@@ -225,13 +225,44 @@
 
     .blacklist-item {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      gap: 8px;
       padding: 6px 10px;
       background: #f9f9f9;
       border: 1px solid #ddd;
       border-radius: 4px;
       font-size: 12px;
+    }
+
+    .entry-label {
+      flex: 1;
+      font-family: monospace;
+      word-break: break-all;
+    }
+
+    .entry-type-badge {
+      flex-shrink: 0;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .entry-type-domain {
+      background: #e3f2fd;
+      color: #1565c0;
+    }
+
+    .entry-type-url {
+      background: #ede7f6;
+      color: #4527a0;
+    }
+
+    .entry-type-local {
+      background: #fff3e0;
+      color: #e65100;
     }
 
     .delete-blacklist-btn {
@@ -420,12 +451,16 @@
 
       <!-- Blacklist - Full Width -->
       <div class="section full-width">
-        <h2>Blocked Websites</h2>
+        <h2>Blocked Sites, URLs &amp; Local Pages</h2>
         <div class="setting-item">
-          <label>Toolbar won't appear on these domains</label>
-          <p class="setting-help">Add domains (e.g., "github.com", "mail.google.com")</p>
+          <label>Toolbar won't appear on these pages</label>
+          <p class="setting-help">
+            Domains: <code>github.com</code> (blocks github.com and all subdomains) &nbsp;|&nbsp;
+            URLs: <code>https://example.com/path</code> (blocks that URL and everything under it) &nbsp;|&nbsp;
+            Local files: <code>file://</code> (blocks all local pages) or a specific path like <code>file:///Users/me/doc.html</code>
+          </p>
           <div style="display: flex; gap: 8px; margin-top: 8px; margin-bottom: 10px;">
-            <input type="text" id="blacklistInput" placeholder="Enter domain..." style="flex: 1;">
+            <input type="text" id="blacklistInput" placeholder="github.com  or  https://site.com/path  or  file://" style="flex: 1;">
             <button type="button" id="addBlacklistBtn" class="btn btn-primary" style="padding: 8px 16px; flex: 0 0 auto;">Add</button>
           </div>
           <div id="blacklistItems" style="display: flex; flex-direction: column; gap: 4px; max-height: 150px; overflow-y: auto;">

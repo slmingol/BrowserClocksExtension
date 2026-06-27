@@ -108,7 +108,7 @@ async function loadSettings() {
 async function saveSettings() {
   // Get current blacklist from DOM
   const blacklistItems = Array.from(document.querySelectorAll('.blacklist-item'))
-    .map(item => item.dataset.domain)
+    .map(item => item.dataset.entry)
     .filter(Boolean);
   
   const settings = {
@@ -155,61 +155,90 @@ async function resetSettings() {
   }
 }
 
+// Classify a blocklist entry for display purposes
+function getEntryType(entry) {
+  if (entry === 'file://' || entry.startsWith('file://')) return 'local';
+  if (entry.startsWith('http://') || entry.startsWith('https://')) return 'url';
+  return 'domain';
+}
+
 // Render blacklist
 function renderBlacklist(blacklist) {
   const container = document.getElementById('blacklistItems');
   if (!container) return;
-  
-  container.innerHTML = blacklist.map(domain => `
-    <div class="blacklist-item" data-domain="${domain}">
-      <span>${domain}</span>
-      <button class="delete-blacklist-btn" data-domain="${domain}">✕</button>
-    </div>
-  `).join('');
-  
-  // Add delete listeners
-  document.querySelectorAll('.delete-blacklist-btn').forEach(btn => {
-    btn.addEventListener('click', () => removeFromBlacklist(btn.dataset.domain));
+
+  container.innerHTML = '';
+
+  blacklist.forEach(entry => {
+    const row = document.createElement('div');
+    row.className = 'blacklist-item';
+    row.dataset.entry = entry;
+
+    const type = getEntryType(entry);
+    const badge = document.createElement('span');
+    badge.className = `entry-type-badge entry-type-${type}`;
+    badge.textContent = type;
+
+    const label = document.createElement('span');
+    label.className = 'entry-label';
+    label.textContent = entry;
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'delete-blacklist-btn';
+    deleteBtn.textContent = '✕';
+    deleteBtn.addEventListener('click', () => removeFromBlacklist(entry));
+
+    row.appendChild(badge);
+    row.appendChild(label);
+    row.appendChild(deleteBtn);
+    container.appendChild(row);
   });
 }
 
-// Add domain to blacklist
+// Normalize a raw input value into a canonical blocklist entry
+function normalizeEntry(raw) {
+  const trimmed = raw.trim();
+  if (!trimmed) return null;
+
+  // file:// - keep as-is (either bare "file://" or a specific path)
+  if (trimmed.startsWith('file://')) return trimmed || 'file://';
+
+  // Full URL - keep as-is but strip trailing slash for consistency
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+    return trimmed.replace(/\/$/, '');
+  }
+
+  // Domain - strip any accidental protocol/www prefix and path
+  return trimmed.replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0].toLowerCase();
+}
+
+// Add entry to blacklist
 function addToBlacklist() {
   const input = document.getElementById('blacklistInput');
   if (!input) return;
-  
-  let domain = input.value.trim();
-  if (!domain) return;
-  
-  // Clean up the domain - remove protocol and path
-  domain = domain.replace(/^https?:\/\//, '').replace(/^www\./, '').split('/')[0];
-  
-  // Get current blacklist
+
+  const entry = normalizeEntry(input.value);
+  if (!entry) return;
+
   const currentItems = Array.from(document.querySelectorAll('.blacklist-item'))
-    .map(item => item.dataset.domain);
-  
-  // Check if already exists
-  if (currentItems.includes(domain)) {
-    alert('This domain is already in the blacklist!');
+    .map(item => item.dataset.entry);
+
+  if (currentItems.includes(entry)) {
+    alert('This entry is already in the block list!');
     return;
   }
-  
-  // Add to blacklist and re-render
-  currentItems.push(domain);
+
+  currentItems.push(entry);
   renderBlacklist(currentItems);
-  
-  // Clear input
   input.value = '';
 }
 
-// Remove domain from blacklist
-function removeFromBlacklist(domain) {
-  // Get current blacklist
+// Remove entry from blacklist
+function removeFromBlacklist(entry) {
   const currentItems = Array.from(document.querySelectorAll('.blacklist-item'))
-    .map(item => item.dataset.domain)
-    .filter(item => item !== domain);
-  
-  // Re-render without the removed domain
+    .map(item => item.dataset.entry)
+    .filter(item => item !== entry);
+
   renderBlacklist(currentItems);
 }
 
