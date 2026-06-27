@@ -62,9 +62,10 @@ jobs:
           path: BrowserClocks-v${{ steps.get_version.outputs.version }}.zip
       
       - name: Create GitHub Release
-        if: startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_run'
         uses: softprops/action-gh-release@v1
         with:
+          tag_name: v${{ steps.get_version.outputs.version }}
           files: BrowserClocks-v${{ steps.get_version.outputs.version }}.zip
           body: |
             ## BrowserClocks v${{ steps.get_version.outputs.version }}
